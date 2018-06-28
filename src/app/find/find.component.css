@@ -1,0 +1,14 @@
+.container{width:100%; height: 100%;}
+/* #info{margin-top: 100px; position:fixed;background-color:rgba(13, 13, 13, 0.5);padding:10px 10px 10px 10px;font:13px bold sans-serif;color:#fff;left:0px;top:0px;width:100%;height:140px;overflow:hidden} */
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td, th {
+  width: 25%;
+}

@@ -1,0 +1,36 @@
+<mat-grid-list cols="4" rowHeight="100px">
+    <!-- <mat-grid-tile
+        *ngFor="let tile of tiles"
+        [colspan]="tile.cols"
+        [rowspan]="tile.rows"
+        [style.background]="tile.color" (click)="loadMap()">
+         <div id= {{tile.text}} class="container"></div>
+    </mat-grid-tile> -->
+    <mat-grid-tile
+        [colspan]="2"
+        [rowspan]="1"
+        [style.background]="tiles[0].color">
+
+    </mat-grid-tile>
+
+    <mat-grid-tile
+        [colspan]="2"
+        [rowspan]="5"
+        [style.background]="tiles[1].color">
+         <div id="map" class="container"></div>
+    </mat-grid-tile>
+
+    <mat-grid-tile *ngFor="let incident of incidents"
+        [colspan]="1"
+        [rowspan]="4"
+        [style.background]="tiles[2].color" (click)="locateTheIncident(incident)">
+
+          <p>  <span style="padding: 10px;"> {{incident.id}}</span>
+            <span style="padding: 10px;"> {{incident.type}}</span>
+            <span style="padding: 10px;"> {{incident.name}}</span>
+            <span style="padding: 10px;"> {{incident.info}}</span>
+          </p>
+
+    </mat-grid-tile>
+  </mat-grid-list>
+
