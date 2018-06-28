@@ -1,6 +1,8 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { FUNCTION_TYPE } from '@angular/compiler/src/output/output_ast';
 import { InfoService } from '../info.service';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
+import { OrgMapInfo } from '../models/organization/OrgMapInfo';
 
 export interface Tile {
   color: string;
@@ -15,9 +17,14 @@ export interface Tile {
   styleUrls: ['./view.component.css']
 })
 export class ViewComponent implements AfterViewInit, OnInit {
+  displayedColumns: string[] = ['id', 'name', 'type', 'info'];
+  dataSource;
   incidents;
-
+  mapSelcted = '';
   incidentLocations = [];
+  layer;
+  map;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   tiles: Tile[] = [
     {text: 'One', cols: 2, rows: 1, color: 'lightblue'},
@@ -31,6 +38,9 @@ export class ViewComponent implements AfterViewInit, OnInit {
   ngOnInit() {
     this.service.incident.subscribe(res => this.incidents = res);
     this.service.saveIncident(this.incidents);
+
+    this.dataSource = new MatTableDataSource<OrgMapInfo>(this.incidents);
+    this.dataSource.paginator = this.paginator;
   }
 
 
@@ -41,51 +51,99 @@ export class ViewComponent implements AfterViewInit, OnInit {
     console.log(incident);
   }
 
-  loadMap() {
-        let center = new maptalks.Coordinate(-0.113049, 51.498568);
-        let map = new maptalks.Map('map', {
-          center: center,
-          zoom: 14,
-          baseLayer: new maptalks.TileLayer('base', {
-            urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-            subdomains: ['a','b','c','d'],
-            attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
-          })
-        });
-
-
-        // map.on('click', function (param) {
-        //   var infoDom = document.getElementById('info');
-        //   infoDom.innerHTML = '<div>' + new Date().toLocaleTimeString() +
-        //     ': click map on ' + param.coordinate.toFixed(5).toArray().join() + '</div>' +
-        //     infoDom.innerHTML;
-        // });
-        console.log(this.incidents);
-
-        this.incidents.forEach(element => {
-          this.incidentLocations.push([element.latitude, element.longitude]);
-        });
-
-        let multipoint = new maptalks.MultiPoint(this.incidentLocations, {
-          visible : true,
-          editable : true,
-          cursor : 'pointer',
-          shadowBlur : 0,
-          shadowColor : 'black',
-          draggable : false,
-          dragShadow : false, // display a shadow during dragging
-          drawOnAxis : null,  // force dragging stick on a axis, can be: x, y
-          symbol : {
-            'textFaceName' : 'sans-serif',
-            'textName' : 'Incident',
-            'textFill' : '#34495e',
-            'textHorizontalAlignment' : 'right',
-            'textSize' : 30
-          }
-        });
-
-        new maptalks.VectorLayer('vector', multipoint).addTo(map);
+  selectRow() {
+    alert("Okkk");
   }
 
-}
+  applyMarkers(incident) {
+    let marker;
+    incident.forEach(element => {
+      marker = new maptalks.Marker(
+        [element.latitude, element.longitude],
+        {
+          'properties' : {
+            'name' : element.type
+          },
+          symbol : [
+            {
+              'markerFile'   : '../../assets/icons/incident/incident1.png',
+              'markerWidth'  : 28,
+              'markerHeight' : 40
+            },
+            {
+              'textFaceName' : 'sans-serif',
+              'textName' : '{name}',
+              'textSize' : 14,
+              'textDy'   : 24
+            }
+          ]
+        }
+      ).addTo(this.layer);
+    });
 
+  }
+
+  mapInitialization() {
+    this.map = new maptalks.Map('map', {
+      center: [-0.113049, 51.498568],
+      zoom: 14,
+      baseLayer: new maptalks.TileLayer('base', {
+        urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+        subdomains: ['a','b','c','d'],
+        attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
+      })
+    });
+  }
+
+  loadMap() {
+   this.mapInitialization();
+    let ref  = this;
+
+
+
+    this.layer = new maptalks.VectorLayer('vector').addTo(this.map);
+      this.applyMarkers(this.incidents);
+
+    // vertical one on top right
+    new maptalks.control.Toolbar({
+      'vertical' : true,
+      'position' : 'top-right',
+      'items'     : [{
+        item: 'Incidents',
+        click : function () { info('menu'); },
+        children : [{
+          item: 'Accidents',
+          click : function () {
+            ref.mapSelcted = 'accident';
+            ref.dataSource.filter = ref.mapSelcted.trim().toLowerCase();
+            ref.map.removeLayer(ref.layer);
+            ref.layer = new maptalks.VectorLayer('vector').addTo(ref.map);
+            ref.applyMarkers(ref.dataSource.filteredData);
+           }
+        }, {
+          item: 'Fires',
+          click : function () {
+            ref.mapSelcted = 'fire';
+            ref.dataSource.filter = ref.mapSelcted.trim().toLowerCase();
+            ref.map.removeLayer(ref.layer);
+            ref.layer = new maptalks.VectorLayer('vector').addTo(ref.map);
+            ref.applyMarkers(ref.dataSource.filteredData);
+          }, {
+            item: 'all',
+            click : function () {
+              ref.mapSelcted = '';
+              ref.dataSource.filter = ref.mapSelcted.trim().toLowerCase();
+              ref.map.removeLayer(ref.layer);
+            ref.layer = new maptalks.VectorLayer('vector').addTo(ref.map);
+            ref.applyMarkers(ref.incidents);
+            }
+        }]
+      }, {
+        item: '---',
+        click : function () { ref.mapSelcted = 'fire'; }
+      }]
+    })
+    .addTo(this.map);
+
+  }
+}

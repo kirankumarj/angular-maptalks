@@ -56,6 +56,46 @@ export class InfoService {
       'longitude': 41.49509,
       'info': 'InfoIncident4',
       'type': 'fire'
+    },
+    {
+      'id' : '0005',
+      'name': 'Incident5',
+      'latitude': -0.14161,
+      'longitude': 51.10509,
+      'info': 'InfoIncident5',
+      'type': 'accident'
+    },
+    {
+      'id' : '0006',
+      'name': 'Incident6',
+      'latitude': -0.13461,
+      'longitude': 51.49509,
+      'info': 'InfoIncident6',
+      'type': 'fire'
+    },
+    {
+      'id' : '0007',
+      'name': 'Incident7',
+      'latitude': -1.14161,
+      'longitude': 41.49509,
+      'info': 'InfoIncident7',
+      'type': 'fire'
+    },
+    {
+      'id' : '0008',
+      'name': 'Incident8',
+      'latitude': -1.24161,
+      'longitude': 51.10509,
+      'info': 'InfoIncident8',
+      'type': 'accident'
+    },
+    {
+      'id' : '0009',
+      'name': 'Incident9',
+      'latitude': -1.25461,
+      'longitude': 51.49509,
+      'info': 'InfoIncident9',
+      'type': 'fire'
     }
   ];
   private maps = new BehaviorSubject<any>(this.org);

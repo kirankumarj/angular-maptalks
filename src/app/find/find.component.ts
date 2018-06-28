@@ -50,12 +50,14 @@ export class FindComponent implements OnInit , AfterViewInit {
           })
         });
 
-        map.on('click', function (param) {
-          var infoDom = document.getElementById('info');
-          infoDom.innerHTML = '<div>' + new Date().toLocaleTimeString() +
-            ': click map on ' + param.coordinate.toFixed(5).toArray().join() + '</div>' +
-            infoDom.innerHTML;
-        });
+
+
+        // map.on('click', function (param) {
+        //   var infoDom = document.getElementById('info');
+        //   infoDom.innerHTML = '<div>' + new Date().toLocaleTimeString() +
+        //     ': click map on ' + param.coordinate.toFixed(5).toArray().join() + '</div>' +
+        //     infoDom.innerHTML;
+        // });
         console.log(this.organization);
 
         this.organization.forEach(element => {

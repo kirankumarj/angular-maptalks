@@ -4,4 +4,5 @@ export interface OrgMapInfo {
   latitude: number;
   longitude: number;
   info: string;
+  type: string;
 }

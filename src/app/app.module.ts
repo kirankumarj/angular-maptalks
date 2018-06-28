@@ -24,7 +24,10 @@ import {
   MatInputModule,
   MatRippleModule,
   MatExpansionModule,
-  MatTableModule
+  MatTableModule,
+  MatCardModule,
+  MatDividerModule,
+  MatPaginatorModule
 } from '@angular/material';
 
 
@@ -37,7 +40,10 @@ const module = [
   MatInputModule,
   MatRippleModule,
   MatExpansionModule,
-  MatTableModule
+  MatTableModule,
+  MatCardModule,
+  MatDividerModule,
+  MatPaginatorModule
 ];
 @NgModule({
   declarations: [
