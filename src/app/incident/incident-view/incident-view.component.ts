@@ -82,7 +82,7 @@ export class IncidentViewComponent implements AfterViewInit, OnInit {
       this.marker.openInfoWindow();
     });
   }
-
+// map initializations
   mapInitialization() {
     this.map = new maptalks.Map('map', {
       center: [-0.113049, 51.498568],
