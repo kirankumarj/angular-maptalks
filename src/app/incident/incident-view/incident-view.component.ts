@@ -1,15 +1,16 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { FUNCTION_TYPE } from '@angular/compiler/src/output/output_ast';
-import { InfoService } from '../info.service';
+import { InfoService } from '../../info.service';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
-import { OrgMapInfo } from '../models/organization/OrgMapInfo';
+import { OrgMapInfo } from '../../models/organization/OrgMapInfo';
+
 
 @Component({
-  selector: 'app-view',
-  templateUrl: './view.component.html',
-  styleUrls: ['./view.component.css']
+  selector: 'app-incident-view',
+  templateUrl: './incident-view.component.html',
+  styleUrls: ['./incident-view.component.css']
 })
-export class ViewComponent implements AfterViewInit, OnInit {
+export class IncidentViewComponent implements AfterViewInit, OnInit {
   displayedColumns: string[] = ['id', 'name', 'type', 'info'];
   dataSource;
   incidents;
@@ -17,6 +18,7 @@ export class ViewComponent implements AfterViewInit, OnInit {
   incidentLocations = [];
   layer;
   map;
+  marker;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private service: InfoService) {
@@ -50,9 +52,9 @@ export class ViewComponent implements AfterViewInit, OnInit {
     }
 
   applyMarkers(incident) {
-    let marker;
+
     incident.forEach(element => {
-      marker = new maptalks.Marker(
+      this.marker = new maptalks.Marker(
         [element.latitude, element.longitude],
         {
           'properties' : {
@@ -73,8 +75,12 @@ export class ViewComponent implements AfterViewInit, OnInit {
           ]
         }
       ).addTo(this.layer);
+      this.marker.setInfoWindow({
+        'title'     : element.name,
+        'content'   : element.info
+      });
+      this.marker.openInfoWindow();
     });
-
   }
 
   mapInitialization() {

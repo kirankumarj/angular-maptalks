@@ -29,6 +29,8 @@ import {
   MatDividerModule,
   MatPaginatorModule
 } from '@angular/material';
+import { IncidentCreateComponent } from './incident/incident-create/incident-create.component';
+import { IncidentViewComponent } from './incident/incident-view/incident-view.component';
 
 
 const module = [
@@ -50,7 +52,9 @@ const module = [
     AppComponent,
     CreateComponent,
     FindComponent,
-    ViewComponent
+    ViewComponent,
+    IncidentCreateComponent,
+    IncidentViewComponent
   ],
   imports: [
     BrowserModule,
