@@ -31,6 +31,8 @@ import {
 } from '@angular/material';
 import { IncidentCreateComponent } from './incident/incident-create/incident-create.component';
 import { IncidentViewComponent } from './incident/incident-view/incident-view.component';
+import { OfficeCreateComponent } from './office/office-create/office-create.component';
+import { OfficeViewComponent } from './office/office-view/office-view.component';
 
 
 const module = [
@@ -54,7 +56,9 @@ const module = [
     FindComponent,
     ViewComponent,
     IncidentCreateComponent,
-    IncidentViewComponent
+    IncidentViewComponent,
+    OfficeCreateComponent,
+    OfficeViewComponent
   ],
   imports: [
     BrowserModule,

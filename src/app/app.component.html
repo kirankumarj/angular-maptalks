@@ -7,12 +7,16 @@
 
 
 <button mat-button [matMenuTriggerFor]="menu"  style="background: dimgray; color:white; margin-bottom: 5px;" >Organization</button>
-<button mat-button [matMenuTriggerFor]="menu"  style="background: dimgray; color:white; margin-left: 5px;margin-bottom: 5px;" >Office</button>
+<button mat-button [matMenuTriggerFor]="officeMenu"  style="background: dimgray; color:white; margin-left: 5px;margin-bottom: 5px;" >Office</button>
 <button mat-button [matMenuTriggerFor]="incidentMenu"  style="background: dimgray; color:white; margin-left: 5px;margin-bottom: 5px;" >Incident</button>
 <mat-menu #menu="matMenu">
   <button mat-menu-item routerLink=''>create</button>
   <button mat-menu-item routerLink='find'>Search</button>
 </mat-menu>
+<mat-menu #officeMenu="matMenu">
+    <button mat-menu-item routerLink='office-create'>create</button>
+    <button mat-menu-item routerLink='office-view'>View</button>
+  </mat-menu>
 <mat-menu #incidentMenu="matMenu">
     <button mat-menu-item routerLink='incident-create'>create</button>
     <button mat-menu-item routerLink='incident-view'>View</button>

@@ -62,8 +62,8 @@ export class IncidentViewComponent implements AfterViewInit, OnInit {
           },
           symbol : [
             {
-              'markerFile'   : '../../assets/icons/incident/incident1.png',
-              'markerWidth'  : 28,
+              'markerFile'   : '../../assets/icons/incident/'+element.type+'.png',
+              'markerWidth'  : 30,
               'markerHeight' : 40
             },
             {
@@ -126,7 +126,26 @@ export class IncidentViewComponent implements AfterViewInit, OnInit {
             ref.map.removeLayer(ref.layer);
             ref.layer = new maptalks.VectorLayer('vector').addTo(ref.map);
             ref.applyMarkers(ref.dataSource.filteredData);
-          },{
+          }
+        }, {
+          item: 'Earthquake',
+          click : function () {
+            ref.mapSelcted = 'earthquake';
+            ref.dataSource.filter = ref.mapSelcted.trim().toLowerCase();
+            ref.map.removeLayer(ref.layer);
+            ref.layer = new maptalks.VectorLayer('vector').addTo(ref.map);
+            ref.applyMarkers(ref.dataSource.filteredData);
+          }
+        }, {
+          item: 'Floods',
+          click : function () {
+            ref.mapSelcted = 'floods';
+            ref.dataSource.filter = ref.mapSelcted.trim().toLowerCase();
+            ref.map.removeLayer(ref.layer);
+            ref.layer = new maptalks.VectorLayer('vector').addTo(ref.map);
+            ref.applyMarkers(ref.dataSource.filteredData);
+          }
+        }, {
             item: 'all',
             click : function () {
               ref.mapSelcted = '';

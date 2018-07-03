@@ -120,7 +120,8 @@ export class ViewComponent implements AfterViewInit, OnInit {
             ref.map.removeLayer(ref.layer);
             ref.layer = new maptalks.VectorLayer('vector').addTo(ref.map);
             ref.applyMarkers(ref.dataSource.filteredData);
-          },{
+          }
+          ,{
             item: 'all',
             click : function () {
               ref.mapSelcted = '';

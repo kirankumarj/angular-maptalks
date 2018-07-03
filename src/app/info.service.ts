@@ -13,14 +13,35 @@ export class InfoService {
       'name': 'org1',
       'latitude': -0.131049,
       'longitude': 51.498568,
-      'info': 'organization1'
+      'info': 'organization1',
+      'tyep': 'org'
     },
     {
       'id' : '0001',
       'name': 'org1',
       'latitude': -0.107049,
       'longitude': 51.498568,
-      'info': 'organization1'
+      'info': 'organization1',
+      'tyep': 'org'
+    }
+  ];
+
+  officesList = [
+    {
+      'id' : '0001',
+      'name': 'office',
+      'latitude': -0.121049,
+      'longitude': 51.498568,
+      'info': 'Office_1',
+      'tyep': 'office'
+    },
+    {
+      'id' : '0002',
+      'name': 'office',
+      'latitude': -0.117049,
+      'longitude': 51.498568,
+      'info': 'Office_2',
+      'tyep': 'office'
     }
   ];
 
@@ -38,8 +59,8 @@ export class InfoService {
       'name': 'Incident2',
       'latitude': -0.14161,
       'longitude': 51.49509,
-      'info': 'InfoIncident2',
-      'type': 'accident'
+      'info': 'Floods',
+      'type': 'floods'
     },
     {
       'id' : '0003',
@@ -62,8 +83,8 @@ export class InfoService {
       'name': 'Incident5',
       'latitude': -0.14161,
       'longitude': 51.10509,
-      'info': 'InfoIncident5',
-      'type': 'accident'
+      'info': 'earthquake',
+      'type': 'earthquake'
     },
     {
       'id' : '0006',
@@ -105,6 +126,9 @@ export class InfoService {
   private incidents = new BehaviorSubject<any>(this.listIncidents);
   incident = this.incidents.asObservable();
 
+  private offices = new BehaviorSubject<any>(this.officesList);
+  office = this.offices.asObservable();
+
   constructor() { }
 
 
@@ -114,6 +138,10 @@ export class InfoService {
 
   saveIncident(incidentInfo) {
     this.incidents.next(incidentInfo);
+  }
+
+  saveOffice(officeInfo) {
+    this.offices.next(officeInfo);
   }
 
 }

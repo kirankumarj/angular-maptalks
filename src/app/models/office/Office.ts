@@ -1,6 +1,7 @@
 export interface Office {
-  officeId: string;
-  officeName: string;
-  mapLatitude: number;
-  mapLongitude: number;
+  id: string;
+  name: string;
+  latitude: number;
+  longitude: number;
+  type: string;
 }
