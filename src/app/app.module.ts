@@ -33,6 +33,7 @@ import { IncidentCreateComponent } from './incident/incident-create/incident-cre
 import { IncidentViewComponent } from './incident/incident-view/incident-view.component';
 import { OfficeCreateComponent } from './office/office-create/office-create.component';
 import { OfficeViewComponent } from './office/office-view/office-view.component';
+import { TestRxjsComponent } from './test-rxjs/test-rxjs.component';
 
 
 const module = [
@@ -58,7 +59,8 @@ const module = [
     IncidentCreateComponent,
     IncidentViewComponent,
     OfficeCreateComponent,
-    OfficeViewComponent
+    OfficeViewComponent,
+    TestRxjsComponent
   ],
   imports: [
     BrowserModule,

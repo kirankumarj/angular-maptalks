@@ -14,15 +14,31 @@ export class InfoService {
       'latitude': -0.131049,
       'longitude': 51.498568,
       'info': 'organization1',
-      'tyep': 'org'
+      'type': 'Org1'
     },
     {
-      'id' : '0001',
-      'name': 'org1',
+      'id' : '0002',
+      'name': 'HELPPING HANDS',
       'latitude': -0.107049,
       'longitude': 51.498568,
-      'info': 'organization1',
-      'tyep': 'org'
+      'info': 'organization2',
+      'type': 'Org2'
+    },
+    {
+      'id' : '0003',
+      'name': 'TECH',
+      'latitude': -0.131049,
+      'longitude': 51.490568,
+      'info': 'organization3',
+      'type': 'Org3'
+    },
+    {
+      'id' : '0004',
+      'name': 'OSI',
+      'latitude': -0.107049,
+      'longitude': 51.490568,
+      'info': 'organization4',
+      'type': 'Org4'
     }
   ];
 
@@ -33,7 +49,7 @@ export class InfoService {
       'latitude': -0.121049,
       'longitude': 51.498568,
       'info': 'Office_1',
-      'tyep': 'office'
+      'type': 'office'
     },
     {
       'id' : '0002',
@@ -41,7 +57,7 @@ export class InfoService {
       'latitude': -0.117049,
       'longitude': 51.498568,
       'info': 'Office_2',
-      'tyep': 'office'
+      'type': 'office'
     }
   ];
 

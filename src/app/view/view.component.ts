@@ -3,6 +3,7 @@ import { FUNCTION_TYPE } from '@angular/compiler/src/output/output_ast';
 import { InfoService } from '../info.service';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { OrgMapInfo } from '../models/organization/OrgMapInfo';
+import * as maptalks from 'maptalks';
 
 @Component({
   selector: 'app-view',
@@ -83,7 +84,7 @@ export class ViewComponent implements AfterViewInit, OnInit {
       zoom: 14,
       baseLayer: new maptalks.TileLayer('base', {
         urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-        subdomains: ['a','b','c','d'],
+        subdomains: ['a', 'b', 'c', 'd'],
         attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
       })
     });
@@ -91,7 +92,7 @@ export class ViewComponent implements AfterViewInit, OnInit {
 
   loadMap() {
    this.mapInitialization();
-    let ref  = this;
+    const ref  = this;
 
     this.layer = new maptalks.VectorLayer('vector').addTo(this.map);
     this.applyMarkers(this.incidents);
@@ -102,7 +103,7 @@ export class ViewComponent implements AfterViewInit, OnInit {
       'position' : 'top-right',
       'items'     : [{
         item: 'Incidents',
-        click : function () { info('menu'); },
+        // click : function () { info('menu'); },
         children : [{
           item: 'Accidents',
           click : function () {
@@ -121,7 +122,7 @@ export class ViewComponent implements AfterViewInit, OnInit {
             ref.layer = new maptalks.VectorLayer('vector').addTo(ref.map);
             ref.applyMarkers(ref.dataSource.filteredData);
           }
-          ,{
+        }, {
             item: 'all',
             click : function () {
               ref.mapSelcted = '';

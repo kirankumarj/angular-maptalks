@@ -4,6 +4,8 @@ import { InfoService } from '../../info.service';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { OrgMapInfo } from '../../models/organization/OrgMapInfo';
 
+import * as maptalks from 'maptalks';
+
 
 @Component({
   selector: 'app-incident-view',
@@ -62,7 +64,7 @@ export class IncidentViewComponent implements AfterViewInit, OnInit {
           },
           symbol : [
             {
-              'markerFile'   : '../../assets/icons/incident/'+element.type+'.png',
+              'markerFile'   : '../../assets/icons/incident/' + element.type + '.png',
               'markerWidth'  : 30,
               'markerHeight' : 40
             },
@@ -89,7 +91,7 @@ export class IncidentViewComponent implements AfterViewInit, OnInit {
       zoom: 14,
       baseLayer: new maptalks.TileLayer('base', {
         urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-        subdomains: ['a','b','c','d'],
+        subdomains: ['a', 'b' , 'c', 'd'],
         attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
       })
     });
@@ -97,7 +99,7 @@ export class IncidentViewComponent implements AfterViewInit, OnInit {
 
   loadMap() {
    this.mapInitialization();
-    let ref  = this;
+   const ref  = this;
 
     this.layer = new maptalks.VectorLayer('vector').addTo(this.map);
     this.applyMarkers(this.incidents);
@@ -108,7 +110,7 @@ export class IncidentViewComponent implements AfterViewInit, OnInit {
       'position' : 'top-right',
       'items'     : [{
         item: 'Incidents',
-        click : function () { info('menu'); },
+        click : function () { },
         children : [{
           item: 'Accidents',
           click : function () {

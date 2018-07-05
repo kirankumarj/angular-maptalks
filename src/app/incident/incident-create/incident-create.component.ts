@@ -3,7 +3,7 @@ import { Office } from '../../models/office/Office';
 import { InfoService } from '../../info.service';
 
 import { OrgMapInfo } from '../../models/organization/OrgMapInfo';
-
+import * as maptalks from 'maptalks';
 @Component({
   selector: 'app-incident-create',
   templateUrl: './incident-create.component.html',
@@ -62,23 +62,23 @@ export class IncidentCreateComponent implements OnInit, AfterViewInit {
   }
 
   loadMap() {
-    var map = new maptalks.Map('map', {
+    const map = new maptalks.Map('map', {
       center: [this.newIncident.latitude, this.newIncident.longitude],
       zoom: 14,
       centerCross: true,
       baseLayer: new maptalks.TileLayer('base', {
         urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-        subdomains: ['a','b','c','d'],
+        subdomains: ['a', 'b', 'c', 'd'],
         attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
       })
     });
-    let ref = this;
+    const ref = this;
     map.on('zoomend moving moveend', getStatus);
 
     getStatus();
 
     function getStatus() {
-      var extent = map.getExtent(),
+      const extent = map.getExtent(),
         ex = [
           '{',
           'xmin:' + extent.xmin.toFixed(5),
@@ -87,8 +87,8 @@ export class IncidentCreateComponent implements OnInit, AfterViewInit {
           ', ymax:' + extent.xmax.toFixed(5),
           '}'
         ].join('');
-      var center = map.getCenter();
-      var mapStatus = [
+        const center = map.getCenter();
+      const mapStatus = [
         'Center : [' + [center.x.toFixed(5), center.y.toFixed(5)].join() + ']',
         'Extent : ' + ex,
         'Size : ' + map.getSize().toArray().join(),

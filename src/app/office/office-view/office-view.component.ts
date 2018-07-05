@@ -4,6 +4,8 @@ import { InfoService } from '../../info.service';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { OrgMapInfo } from '../../models/organization/OrgMapInfo';
 
+import * as maptalks from 'maptalks';
+
 @Component({
   selector: 'app-office-view',
   templateUrl: './office-view.component.html',
@@ -61,7 +63,7 @@ export class OfficeViewComponent implements AfterViewInit, OnInit {
           },
           symbol : [
             {
-              'markerFile'   : '../../assets/icons/incident/'+element.type+'.png',
+              'markerFile'   : '../../assets/icons/incident/' + element.type + '.png',
               'markerWidth'  : 30,
               'markerHeight' : 40
             },
@@ -88,48 +90,46 @@ export class OfficeViewComponent implements AfterViewInit, OnInit {
       zoom: 14,
       baseLayer: new maptalks.TileLayer('base', {
         urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-        subdomains: ['a','b','c','d'],
+        subdomains: ['a', 'b', 'c', 'd'],
         attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
       })
     });
   }
   loadMap() {
-    var mapJSON = {
-      "version":"1.0",
-      "options":{
-        "center":{ "x":-0.113049,"y":51.49856800000001 },
-        "zoom":13
+    const mapJSON = {
+      'version': '1.0',
+      'options': {
+      'center': { 'x': -0.113049, 'y': 51.49856800000001 },
+      'zoom': 13
       },
-      "baseLayer":{
-        "type":"TileLayer",
-        "id":"base",
-        "options":{
-          "urlTemplate":"http://{s}.tile.osm.org/{z}/{x}/{y}.png",
-          "subdomains":["a","b","c"]
-        }
+      'baseLayer': {
+      'type': 'TileLayer',
+      'id': 'base',
+      'options': {
+      'urlTemplate': 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+      'subdomains': ['a', 'b', 'c']
+      }
       },
-      "layers":[
-        {
-          "type":"VectorLayer",
-          "id":"v",
-          "geometries":[
-            {
-              "feature":{
-                "type":"Feature",
-                "geometry":{
-                  "type":"Point",
-                  "coordinates":[-0.113049,51.498568]
-                }
-              }
-            }
-          ]
-        }
+      'layers': [
+      {
+      'type': 'VectorLayer',
+      'id': 'v',
+      'geometries': [
+      {
+      'feature': {
+      'type': 'Feature',
+      'geometry': {
+      'type': 'Point',
+      'coordinates': [-0.113049, 51.498568]
+      }
+      }
+      }
       ]
-    };
+      }
+      ]
+      };
 
     maptalks.Map.fromJSON('map', mapJSON);
-
-    //document.getElementById('json').innerHTML = JSON.stringify(mapJSON);
 
   }
 
