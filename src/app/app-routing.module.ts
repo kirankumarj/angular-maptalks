@@ -10,15 +10,21 @@ import { IncidentViewComponent } from './incident/incident-view/incident-view.co
 
 import { OfficeCreateComponent } from './office/office-create/office-create.component';
 import { OfficeViewComponent } from './office/office-view/office-view.component';
+import { OrgcreateComponent } from './org/orgcreate/orgcreate.component';
+import { OrgviewComponent } from './org/orgview/orgview.component';
+
+
 
 const routes: Routes = [
-  { path: '', component: CreateComponent},
+  { path: '', component: OrgcreateComponent},
   { path: 'find', component: FindComponent},
   { path: 'view', component: ViewComponent},
   { path: 'incident-create', component: IncidentCreateComponent},
   { path: 'incident-view', component: IncidentViewComponent},
   { path: 'office-create', component: OfficeCreateComponent},
-  { path: 'office-view', component: OfficeViewComponent}
+  { path: 'office-view', component: OfficeViewComponent},
+  { path: 'org-create', component: OrgcreateComponent},
+  { path: 'org-view', component: OrgviewComponent}
 ];
 
 @NgModule({

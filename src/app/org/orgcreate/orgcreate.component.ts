@@ -1,18 +1,19 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { Office } from '../models/office/Office';
-import { InfoService } from '../info.service';
-import { OrgMapInfo } from '../models/organization/OrgMapInfo';
+import { Office } from '../../models/office/Office';
+import { InfoService } from '../../info.service';
+import { OrgMapInfo } from '../../models/organization/OrgMapInfo';
 import { MatSnackBar } from '@angular/material';
 
 import * as maptalks from 'maptalks';
-import { PopupComponent } from '../popup/popup.component';
+import { PopupComponent } from '../../popup/popup.component';
 
 @Component({
-  selector: 'app-create',
-  templateUrl: './create.component.html',
-  styleUrls: ['./create.component.css']
+  selector: 'app-orgcreate',
+  templateUrl: './orgcreate.component.html',
+  styleUrls: ['./orgcreate.component.css']
 })
-export class CreateComponent implements OnInit, AfterViewInit {
+
+export class OrgcreateComponent implements OnInit, AfterViewInit {
   office: Office;
   step = 0;
   organizations: OrgMapInfo[];

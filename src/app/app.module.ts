@@ -13,8 +13,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import { InfoService } from './info.service';
 
-
-
 import {
   MatButtonModule,
   MatCheckboxModule,
@@ -27,13 +25,17 @@ import {
   MatTableModule,
   MatCardModule,
   MatDividerModule,
-  MatPaginatorModule
+  MatPaginatorModule,
+  MatSnackBarModule
 } from '@angular/material';
 import { IncidentCreateComponent } from './incident/incident-create/incident-create.component';
 import { IncidentViewComponent } from './incident/incident-view/incident-view.component';
 import { OfficeCreateComponent } from './office/office-create/office-create.component';
 import { OfficeViewComponent } from './office/office-view/office-view.component';
 import { TestRxjsComponent } from './test-rxjs/test-rxjs.component';
+import { PopupComponent } from './popup/popup.component';
+import { OrgcreateComponent } from './org/orgcreate/orgcreate.component';
+import { OrgviewComponent } from './org/orgview/orgview.component';
 
 
 const module = [
@@ -48,7 +50,8 @@ const module = [
   MatTableModule,
   MatCardModule,
   MatDividerModule,
-  MatPaginatorModule
+  MatPaginatorModule,
+  MatSnackBarModule
 ];
 @NgModule({
   declarations: [
@@ -60,7 +63,10 @@ const module = [
     IncidentViewComponent,
     OfficeCreateComponent,
     OfficeViewComponent,
-    TestRxjsComponent
+    TestRxjsComponent,
+    PopupComponent,
+    OrgcreateComponent,
+    OrgviewComponent
   ],
   imports: [
     BrowserModule,
@@ -72,6 +78,7 @@ const module = [
   exports: [
     ...module
   ],
+  entryComponents: [PopupComponent],
   providers: [ InfoService ],
   bootstrap: [AppComponent],
   schemas: [

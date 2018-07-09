@@ -4,6 +4,8 @@ import { InfoService } from '../../info.service';
 
 import { OrgMapInfo } from '../../models/organization/OrgMapInfo';
 import * as maptalks from 'maptalks';
+import { MatSnackBar } from '../../../../node_modules/@angular/material';
+import { PopupComponent } from '../../popup/popup.component';
 @Component({
   selector: 'app-incident-create',
   templateUrl: './incident-create.component.html',
@@ -27,7 +29,7 @@ export class IncidentCreateComponent implements OnInit, AfterViewInit {
   extent;
   center;
   mapStatus;
-  constructor(private service: InfoService) { }
+  constructor(private service: InfoService, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.newIncident.latitude = -0.131049;
@@ -109,6 +111,10 @@ export class IncidentCreateComponent implements OnInit, AfterViewInit {
     console.log(this.newIncident);
     this.incidents.push(this.newIncident);
     this.service.saveIncident(this.incidents);
+    this.snackBar.openFromComponent( PopupComponent, {
+      duration: 1000,
+    });
+    this.step = 0;
   }
 
 }

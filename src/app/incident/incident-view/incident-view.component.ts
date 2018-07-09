@@ -79,7 +79,7 @@ export class IncidentViewComponent implements AfterViewInit, OnInit {
       ).addTo(this.layer);
       this.marker.setInfoWindow({
         'title'     : element.name,
-        'content'   : element.info
+        'content'   : element.info,
       });
       this.marker.openInfoWindow();
     });
@@ -90,8 +90,8 @@ export class IncidentViewComponent implements AfterViewInit, OnInit {
       center: [-0.113049, 51.498568],
       zoom: 14,
       baseLayer: new maptalks.TileLayer('base', {
-        urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-        subdomains: ['a', 'b' , 'c', 'd'],
+        urlTemplate: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        subdomains: ['a', 'b' , 'c'],
         attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
       })
     });
