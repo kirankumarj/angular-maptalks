@@ -37,6 +37,8 @@ import { PopupComponent } from './popup/popup.component';
 import { OrgcreateComponent } from './org/orgcreate/orgcreate.component';
 import { OrgviewComponent } from './org/orgview/orgview.component';
 
+import { HttpClientModule } from '@angular/common/http';
+
 
 const module = [
   MatButtonModule,
@@ -71,6 +73,7 @@ const module = [
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     ...module,
     FormsModule,
     AppRoutingModule

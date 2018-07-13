@@ -1,4 +1,4 @@
-<mat-accordion class="example-headers-align">
+<!-- <mat-accordion class="example-headers-align">
   <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
     <mat-expansion-panel-header>
       <mat-panel-title>
@@ -70,4 +70,21 @@
     </mat-action-row>
   </mat-expansion-panel>
 
-</mat-accordion>
+</mat-accordion> -->
+
+
+<div id="wrapper">
+    <div id="leftcolumn">
+        <div *ngFor="let addressDetails of address">
+         <div (click)="moveMap(addressDetails)">{{addressDetails.display_name}}</div>
+        </div>
+    </div>
+
+
+    <div id="rightcolumn" style="color:black;">
+          <div id="map" class="container"></div>
+          <div id="search">
+              <input type="text" (keyup)="searchData()" id="mapSearch" [(ngModel)]="searchAddress" type="text" name="addr" value="" id="addr" size="10" />
+            </div>
+    </div>
+  </div>

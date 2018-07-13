@@ -6,6 +6,7 @@ import { MatSnackBar } from '@angular/material';
 
 import * as maptalks from 'maptalks';
 import { PopupComponent } from '../../popup/popup.component';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-orgcreate',
@@ -16,7 +17,14 @@ import { PopupComponent } from '../../popup/popup.component';
 export class OrgcreateComponent implements OnInit, AfterViewInit {
   office: Office;
   step = 0;
+  searchAddress;
   organizations: OrgMapInfo[];
+  address;
+  map;
+  extent;
+  ex;
+  mapStatus;
+  center;
   newOrg = {
     id: 'Enter Id',
     name: 'Enter Name',
@@ -27,11 +35,11 @@ export class OrgcreateComponent implements OnInit, AfterViewInit {
   };
 
   maps = [];
-  constructor(private service: InfoService, private snackBar: MatSnackBar) { }
+  constructor(private service: InfoService, private snackBar: MatSnackBar, private http: HttpClient) { }
 
   ngOnInit() {
-    this.newOrg.latitude = -0.131049;
-    this.newOrg.longitude = 51.498568;
+    this.newOrg.latitude = 78.498;
+    this.newOrg.longitude = 17.476;
     this.newOrg.id = '0';
     this.newOrg.name = 'enter org name';
     this.service.mapLocation.subscribe(res => this.maps = res);
@@ -39,7 +47,12 @@ export class OrgcreateComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.loadMap();
+    window.navigator.geolocation.getCurrentPosition((location) => {
+        this.newOrg.latitude = location.coords.longitude;
+        this.newOrg.longitude  = location.coords.latitude;
+        this.loadMap();
+        }
+    );
   }
 
 
@@ -60,7 +73,7 @@ export class OrgcreateComponent implements OnInit, AfterViewInit {
   }
 
   loadMap() {
-    const map = new maptalks.Map('map', {
+    this.map = new maptalks.Map('map', {
       center: [this.newOrg.latitude, this.newOrg.longitude],
       zoom: 14,
       centerCross: true,
@@ -70,36 +83,38 @@ export class OrgcreateComponent implements OnInit, AfterViewInit {
         attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
       })
     });
-    const ref = this;
-    map.on('zoomend moving moveend', getStatus);
 
-    getStatus();
-
-    function getStatus() {
-      const extent = map.getExtent(),
-        ex = [
-          '{',
-          'xmin:' + extent.xmin.toFixed(5),
-          ', ymin:' + extent.ymin.toFixed(5),
-          ', xmax:' + extent.xmax.toFixed(5),
-          ', ymax:' + extent.xmax.toFixed(5),
-          '}'
-        ].join('');
-        const center = map.getCenter();
-        const mapStatus = [
-        'Center : [' + [center.x.toFixed(5), center.y.toFixed(5)].join() + ']',
-        'Extent : ' + ex,
-        'Size : ' + map.getSize().toArray().join(),
-        'Zoom : '   + map.getZoom(),
-        'MinZoom : ' + map.getMinZoom(),
-        'MaxZoom : ' + map.getMaxZoom(),
-        'Projection : ' + map.getProjection().code
-      ];
-       ref.newOrg.latitude =  parseFloat(center.x.toFixed(3));
-       ref.newOrg.longitude = parseFloat(center.y.toFixed(3));
-    console.log(mapStatus);
-    }
-
+  }
+  getStatus() {
+    this.extent = this.map.getExtent(),
+      this.ex = [
+        '{',
+        'xmin:' + this.extent.xmin.toFixed(5),
+        ', ymin:' + this.extent.ymin.toFixed(5),
+        ', xmax:' + this.extent.xmax.toFixed(5),
+        ', ymax:' + this.extent.xmax.toFixed(5),
+        '}'
+      ].join('');
+      this.center = this.map.getCenter();
+      this.mapStatus = [
+      'Center : [' + [this.center.x.toFixed(5), this.center.y.toFixed(5)].join() + ']',
+      'Extent : ' + this.ex,
+      'Size : ' + this.map.getSize().toArray().join(),
+      'Zoom : '   + this.map.getZoom(),
+      'MinZoom : ' + this.map.getMinZoom(),
+      'MaxZoom : ' + this.map.getMaxZoom(),
+      'Projection : ' + this.map.getProjection().code
+    ];
+     this.newOrg.latitude =  parseFloat(this.center.x.toFixed(3));
+     this.newOrg.longitude = parseFloat(this.center.y.toFixed(3));
+  console.log(this.mapStatus);
+  }
+  moveMap(addresDetails) {
+    console.log(addresDetails);
+    this.newOrg.latitude =  parseFloat(addresDetails.lon);
+    this.newOrg.longitude = parseFloat(addresDetails.lat);
+    this.map.remove();
+    this.loadMap();
   }
 
   saveOrg() {
@@ -113,4 +128,12 @@ export class OrgcreateComponent implements OnInit, AfterViewInit {
     this.step = 0;
   }
 
+  searchData() {
+    // const input = document.getElementById('mapSearch').value;
+    this.http.get('http://nominatim.openstreetmap.org/search?format=json&limit=5&q=' + this.searchAddress)
+    .subscribe((res) => {
+          console.log(res);
+          this.address = res;
+    });
+  }
 }
