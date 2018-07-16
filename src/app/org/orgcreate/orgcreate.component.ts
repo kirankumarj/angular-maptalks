@@ -25,13 +25,22 @@ export class OrgcreateComponent implements OnInit, AfterViewInit {
   ex;
   mapStatus;
   center;
+  addressInfo;
+  addressLocation = [];
   newOrg = {
     id: 'Enter Id',
     name: 'Enter Name',
     latitude: 0,
     longitude: 0,
     type: 'Enter Type',
-    info: 'Enter Info'
+    info: 'Enter Info',
+    address: {
+      city: 'City',
+      country: 'Country',
+      postcode: 'Postcode',
+      state: 'State',
+      state_district: 'State District'
+    }
   };
 
   maps = [];
@@ -75,46 +84,85 @@ export class OrgcreateComponent implements OnInit, AfterViewInit {
   loadMap() {
     this.map = new maptalks.Map('map', {
       center: [this.newOrg.latitude, this.newOrg.longitude],
-      zoom: 14,
+      zoom: 12,
       centerCross: true,
+      zoomControl : true,
       baseLayer: new maptalks.TileLayer('base', {
         urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
         subdomains: ['a', 'b' , 'c' , 'd'],
         attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
       })
     });
-
-  }
-  getStatus() {
-    this.extent = this.map.getExtent(),
-      this.ex = [
+    let ref = this;
+    this.map.on('zoomend moveend', getStatus);
+  function getStatus() {
+          ref.addressInfo = '';
+          ref.step = 2;
+          ref.searchAddress = '';
+          ref.newOrg.address.city = '';
+          ref.newOrg.address.state = '';
+          ref.newOrg.address.postcode = '';
+          ref.newOrg.address.country = '';
+          ref.newOrg.address.state_district = '';
+      ref.extent = ref.map.getExtent(),
+      ref.ex = [
         '{',
-        'xmin:' + this.extent.xmin.toFixed(5),
-        ', ymin:' + this.extent.ymin.toFixed(5),
-        ', xmax:' + this.extent.xmax.toFixed(5),
-        ', ymax:' + this.extent.xmax.toFixed(5),
+        'xmin:' + ref.extent.xmin.toFixed(5),
+        ', ymin:' + ref.extent.ymin.toFixed(5),
+        ', xmax:' + ref.extent.xmax.toFixed(5),
+        ', ymax:' + ref.extent.xmax.toFixed(5),
         '}'
       ].join('');
-      this.center = this.map.getCenter();
-      this.mapStatus = [
-      'Center : [' + [this.center.x.toFixed(5), this.center.y.toFixed(5)].join() + ']',
-      'Extent : ' + this.ex,
-      'Size : ' + this.map.getSize().toArray().join(),
-      'Zoom : '   + this.map.getZoom(),
-      'MinZoom : ' + this.map.getMinZoom(),
-      'MaxZoom : ' + this.map.getMaxZoom(),
-      'Projection : ' + this.map.getProjection().code
+      ref.center = ref.map.getCenter();
+      ref.mapStatus = [
+      'Center : [' + [ref.center.x.toFixed(5), ref.center.y.toFixed(5)].join() + ']',
+      'Extent : ' + ref.ex,
+      'Size : ' + ref.map.getSize().toArray().join(),
+      'Zoom : '   + ref.map.getZoom(),
+      'MinZoom : ' + ref.map.getMinZoom(),
+      'MaxZoom : ' + ref.map.getMaxZoom(),
+      'Projection : ' + ref.map.getProjection().code
     ];
-     this.newOrg.latitude =  parseFloat(this.center.x.toFixed(3));
-     this.newOrg.longitude = parseFloat(this.center.y.toFixed(3));
-  console.log(this.mapStatus);
+     ref.newOrg.latitude =  parseFloat(ref.center.x.toFixed(3));
+     ref.newOrg.longitude = parseFloat(ref.center.y.toFixed(3));
+     ref.http.get('https://nominatim.openstreetmap.org/reverse?format=json&lat='
+    + ref.newOrg.longitude + '&lon=' + ref.newOrg.latitude + '&addressdetails=1')
+    .subscribe((res) => {
+          console.log(res);
+          ref.addressInfo = res;
+          ref.step = 2;
+          ref.searchAddress = ref.addressInfo.display_name;
+          ref.newOrg.address.city = ref.addressInfo.address.city;
+          ref.newOrg.address.state = ref.addressInfo.address.state;
+          ref.newOrg.address.postcode = ref.addressInfo.address.postcode;
+          ref.newOrg.address.country = ref.addressInfo.address.country;
+          ref.newOrg.address.state_district = ref.addressInfo.address.state_district;
+      });
+    // if ( ref.addressInfo ) {
+
+    // }
+    // console.log(ref.mapStatus);
   }
+}
   moveMap(addresDetails) {
     console.log(addresDetails);
     this.newOrg.latitude =  parseFloat(addresDetails.lon);
     this.newOrg.longitude = parseFloat(addresDetails.lat);
     this.map.remove();
     this.loadMap();
+    this.searchAddress = addresDetails.display_name;
+    console.log(this.searchAddress);
+    this.newOrg.address.city = addresDetails.address.city;
+    this.newOrg.address.state = addresDetails.address.state;
+    this.newOrg.address.postcode = addresDetails.address.postcode;
+    this.newOrg.address.country = addresDetails.address.country;
+    this.newOrg.address.state_district = addresDetails.address.state_district;
+    this.address = [];
+    this.step = 2;
+    // this.addressLocation = this.searchAddress.split(', ');
+    // console.log(this.addressLocation);
+    // this.addressLocation.reverse();
+    // console.log(this.addressLocation);
   }
 
   saveOrg() {
@@ -130,7 +178,7 @@ export class OrgcreateComponent implements OnInit, AfterViewInit {
 
   searchData() {
     // const input = document.getElementById('mapSearch').value;
-    this.http.get('http://nominatim.openstreetmap.org/search?format=json&limit=5&q=' + this.searchAddress)
+    this.http.get('http://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=5&q=' + this.searchAddress)
     .subscribe((res) => {
           console.log(res);
           this.address = res;
