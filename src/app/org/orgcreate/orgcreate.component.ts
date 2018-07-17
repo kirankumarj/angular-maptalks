@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material';
 import * as maptalks from 'maptalks';
 import { PopupComponent } from '../../popup/popup.component';
 import { HttpClient } from '@angular/common/http';
+import { resetFakeAsyncZone } from '../../../../node_modules/@angular/core/testing';
 
 @Component({
   selector: 'app-orgcreate',
@@ -78,7 +79,6 @@ export class OrgcreateComponent implements OnInit, AfterViewInit {
   }
 
   saveOffice() {
-    console.log(this.office);
   }
 
   loadMap() {
@@ -88,10 +88,13 @@ export class OrgcreateComponent implements OnInit, AfterViewInit {
       centerCross: true,
       zoomControl : true,
       baseLayer: new maptalks.TileLayer('base', {
-        urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-        subdomains: ['a', 'b' , 'c' , 'd'],
-        attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
-      })
+      //   urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+      //   subdomains: ['a', 'b' , 'c' , 'd'],
+      //   attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
+      urlTemplate: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      subdomains: ['a', 'b' , 'c'],
+      attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
+    })
     });
     let ref = this;
     this.map.on('zoomend moveend', getStatus);
@@ -125,49 +128,33 @@ export class OrgcreateComponent implements OnInit, AfterViewInit {
     ];
      ref.newOrg.latitude =  parseFloat(ref.center.x.toFixed(3));
      ref.newOrg.longitude = parseFloat(ref.center.y.toFixed(3));
-     ref.http.get('https://nominatim.openstreetmap.org/reverse?format=json&lat='
-    + ref.newOrg.longitude + '&lon=' + ref.newOrg.latitude + '&addressdetails=1')
-    .subscribe((res) => {
-          console.log(res);
+     ref.service.getMapLocationDataByLL(ref.newOrg.latitude, ref.newOrg.longitude).
+     subscribe((res) => {
           ref.addressInfo = res;
-          ref.step = 2;
-          ref.searchAddress = ref.addressInfo.display_name;
-          ref.newOrg.address.city = ref.addressInfo.address.city;
-          ref.newOrg.address.state = ref.addressInfo.address.state;
-          ref.newOrg.address.postcode = ref.addressInfo.address.postcode;
-          ref.newOrg.address.country = ref.addressInfo.address.country;
-          ref.newOrg.address.state_district = ref.addressInfo.address.state_district;
+          ref.mapValues(ref, ref.addressInfo, ref.newOrg.address);
       });
-    // if ( ref.addressInfo ) {
-
-    // }
-    // console.log(ref.mapStatus);
   }
 }
+
+mapValues(ref, fromAddress, toAddress) {
+    ref.searchAddress = fromAddress.display_name;
+    toAddress.city = fromAddress.address.city;
+    toAddress.state = fromAddress.address.state;
+    toAddress.postcode = fromAddress.address.postcode;
+    toAddress.country = fromAddress.address.country;
+    toAddress.state_district = fromAddress.address.state_district;
+    ref.step = 2;
+}
   moveMap(addresDetails) {
-    console.log(addresDetails);
     this.newOrg.latitude =  parseFloat(addresDetails.lon);
     this.newOrg.longitude = parseFloat(addresDetails.lat);
     this.map.remove();
     this.loadMap();
-    this.searchAddress = addresDetails.display_name;
-    console.log(this.searchAddress);
-    this.newOrg.address.city = addresDetails.address.city;
-    this.newOrg.address.state = addresDetails.address.state;
-    this.newOrg.address.postcode = addresDetails.address.postcode;
-    this.newOrg.address.country = addresDetails.address.country;
-    this.newOrg.address.state_district = addresDetails.address.state_district;
+    this.mapValues(this, addresDetails, this.newOrg.address);
     this.address = [];
-    this.step = 2;
-    // this.addressLocation = this.searchAddress.split(', ');
-    // console.log(this.addressLocation);
-    // this.addressLocation.reverse();
-    // console.log(this.addressLocation);
   }
 
   saveOrg() {
-    console.log(this.maps);
-    console.log(this.newOrg);
     this.maps.push(this.newOrg);
     this.service.saveMapLocation(this.maps);
     this.snackBar.openFromComponent(PopupComponent, {
@@ -176,12 +163,9 @@ export class OrgcreateComponent implements OnInit, AfterViewInit {
     this.step = 0;
   }
 
-  searchData() {
-    // const input = document.getElementById('mapSearch').value;
-    this.http.get('http://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=5&q=' + this.searchAddress)
-    .subscribe((res) => {
-          console.log(res);
-          this.address = res;
+  searchMapLocationBySearchData() {
+    this.service.getMapLocationData(this.searchAddress).subscribe((res) => {
+      this.address = res;
     });
   }
 }

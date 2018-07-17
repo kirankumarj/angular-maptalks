@@ -1,12 +1,17 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { OrgMapInfo } from './models/organization/OrgMapInfo';
+
+import { HttpClient } from '@angular/common/http';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class InfoService {
+  findMapLocationBySearchDataURL = '';
+  findMapLocationBySearchLLURL = '';
   org = [
     {
       'id' : '0001',
@@ -135,6 +140,7 @@ export class InfoService {
       'type': 'fire'
     }
   ];
+
   private maps = new BehaviorSubject<any>(this.org);
   mapLocation = this.maps.asObservable();
 
@@ -145,7 +151,10 @@ export class InfoService {
   private offices = new BehaviorSubject<any>(this.officesList);
   office = this.offices.asObservable();
 
-  constructor() { }
+  constructor(private http: HttpClient) {
+    this.findMapLocationBySearchDataURL = 'http://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=5&q=';
+    this.findMapLocationBySearchLLURL = 'http://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=5&q=';
+  }
 
 
   saveMapLocation(orgMapInfo) {
@@ -159,5 +168,15 @@ export class InfoService {
   saveOffice(officeInfo) {
     this.offices.next(officeInfo);
   }
+  getMapLocationData(address): Observable<any> {
+    return this.http.get(this.findMapLocationBySearchDataURL + address);
+  }
+
+  getMapLocationDataByLL(latitude , longitude): Observable<any> {
+    return this.http.get('https://nominatim.openstreetmap.org/reverse?format=json&lat='
+    + longitude + '&lon=' + latitude + '&addressdetails=1');
+  }
+
+
 
 }
