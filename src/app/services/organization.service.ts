@@ -23,8 +23,9 @@ export class OrganizationService {
     return this.restService.post(createRequest, AppConstants.ORGANIZATION_URL);
   }
 
-  public updateOrganization(createRequest: any): Observable<any> {
-    return this.restService.findOne(createRequest, AppConstants.ORGANIZATION_URL);
+  public updateOrganization(req: any): Observable<any> {
+    console.log(req);
+    return this.restService.update(req, AppConstants.ORGANIZATION_URL);
   }
 
   public deleteOrganization(orgId): Observable<any> {

@@ -22,7 +22,7 @@ export class RestService {
   }
 
   public update<T>(itemToUpdate: any, url: string): Observable<T> {
-    return this.http.put<T>(url, JSON.stringify(itemToUpdate));
+    return this.http.put<T>(url, itemToUpdate);
   }
 
   public delete<T>(url: string): Observable<T> {

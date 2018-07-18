@@ -8,6 +8,7 @@ import { OverlayUpdateOrgComponent } from '../../popup/overlay-update-org/overla
 import { PopupComponent } from '../../popup/popup.component';
 
 import { environment } from '../../../environments/environment';
+import { OrganizationService } from '../../services/organization.service';
 
 export interface Tile {
   color: string;
@@ -34,30 +35,39 @@ export class OrgviewComponent implements OnInit , AfterViewInit {
   orgIndex;
   action;
   updateData = {
-    id: '',
     name: '',
+    latitude: 0,
+    longitude: 0,
     type: '',
-    info: ''
+    info: '',
+    address: {
+      city: '',
+      country: '',
+      postcode: '',
+      state: '',
+      state_district: ''
+    }
   };
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private service: InfoService, private matDialog: MatDialog, private snackBar: MatSnackBar) {
+  constructor(private service: InfoService, private matDialog: MatDialog, private snackBar: MatSnackBar,
+    private organizationService: OrganizationService ) {
   }
 
   ngOnInit() {
-
+  }
+  ngAfterViewInit() {
     if (environment.isDataAvailableInRealService) {
-
+      console.log('Hit the service :: Get the all Org Details ');
+      this.getAllOrganizations();
     } else {
       console.log('Mock Data :: Get the all Org Details ');
       this.service.mapLocation.subscribe(res => this.organization = res);
-    this.service.saveOrganization(this.organization);
+      this.service.saveOrganization(this.organization);
+      this.dataSource = new MatTableDataSource<OrgMapInfo>(this.organization);
+      this.dataSource.paginator = this.paginator;
+      this.loadMap();
     }
-    this.dataSource = new MatTableDataSource<OrgMapInfo>(this.organization);
-    this.dataSource.paginator = this.paginator;
-  }
-  ngAfterViewInit() {
-    this.loadMap();
   }
   locateTheIncident(incident) {
     console.log(incident);
@@ -200,17 +210,20 @@ export class OrgviewComponent implements OnInit , AfterViewInit {
       console.log(`Dialog result: ${result}`);
       console.log(this.updateData);
       if (result) {
-        element.id = this.updateData.id;
-        element.name = this.updateData.name;
-        element.tyep = this.updateData.type;
-        element.info = this.updateData.info;
-        this.snackBar.openFromComponent(PopupComponent, {
-          duration: 1000,
-          data: 'Updated Data...!'
-        });
-        this.map.removeLayer(this.layer);
-        this.layer = new maptalks.VectorLayer('vector').addTo(this.map);
-        this.applyMarkers(this.organization);
+        if (environment.isDataAvailableInRealService) {
+          this.updateOrganization(element);
+        } else {
+          element.name = this.updateData.name;
+          element.tyep = this.updateData.type;
+          element.info = this.updateData.info;
+          this.snackBar.openFromComponent(PopupComponent, {
+            duration: 1000,
+            data: 'Updated Data...!'
+          });
+          this.map.removeLayer(this.layer);
+          this.layer = new maptalks.VectorLayer('vector').addTo(this.map);
+          this.applyMarkers(this.organization);
+        }
       }
     });
   }
@@ -218,10 +231,10 @@ export class OrgviewComponent implements OnInit , AfterViewInit {
   deleteRecord(element) {
     console.log(element);
     this.orgIndex = this.organization.indexOf(element);
-    this.openDialog();
+    this.openDialog(element);
   }
 
-  openDialog(): void {
+  openDialog(element): void {
     const dialogRef = this.matDialog.open(OverlayDeleteComponent, {
       width: '250px'
     });
@@ -230,15 +243,83 @@ export class OrgviewComponent implements OnInit , AfterViewInit {
       console.log(`Dialog result: ${result}`);
       if (result) {
         if (this.orgIndex !== -1) {
-          this.organization.splice(this.orgIndex, 1);
-          this.service.saveOrganization(this.organization);
-          this.dataSource = new MatTableDataSource<OrgMapInfo>(this.organization);
-          this.map.removeLayer(this.layer);
-          this.layer = new maptalks.VectorLayer('vector').addTo(this.map);
-          this.applyMarkers(this.organization);
+          if (environment.isDataAvailableInRealService) {
+            this.organizationService.deleteOrganization(element.id).subscribe((res) => {
+              console.log(res);
+              if ( res.deleted === 1 ) {
+                this.organization.splice(this.orgIndex, 1);
+                this.dataSource = new MatTableDataSource<OrgMapInfo>(this.organization);
+                this.map.removeLayer(this.layer);
+                this.layer = new maptalks.VectorLayer('vector').addTo(this.map);
+                this.applyMarkers(this.organization);
+                this.snackBar.openFromComponent(PopupComponent, {
+                  duration: 1000,
+                  data: 'Record Deleted...!'
+                });
+              }
+            },
+            error => {
+              this.snackBar.openFromComponent(PopupComponent, {
+                duration: 2000,
+                data: 'Service Error...!'
+              });
+            });
+
+          } else {
+            this.organization.splice(this.orgIndex, 1);
+            this.service.saveOrganization(this.organization);
+            this.dataSource = new MatTableDataSource<OrgMapInfo>(this.organization);
+            this.map.removeLayer(this.layer);
+            this.layer = new maptalks.VectorLayer('vector').addTo(this.map);
+            this.applyMarkers(this.organization);
+          }
         }
       }
     });
+  }
+
+  getAllOrganizations() {
+    this.organizationService.getAllOrganizations().subscribe((res) => {
+      this.organization = res;
+      console.log(this.organization);
+      this.dataSource = new MatTableDataSource<OrgMapInfo>(this.organization);
+      this.dataSource.paginator = this.paginator;
+      this.loadMap();
+    },
+    error => {
+      this.snackBar.openFromComponent(PopupComponent, {
+        duration: 3000,
+        data: 'Service Error...!'
+      });
+    });
+  }
+
+  updateOrganization(element) {
+    console.log('req', this.updateData);
+    this.organizationService.updateOrganization(this.updateData).subscribe((res) => {
+      console.log(res);
+      if ( res.id === this.updateData.id ) {
+          element.name = this.updateData.name;
+          element.type = this.updateData.type;
+          element.info = this.updateData.info;
+          this.snackBar.openFromComponent(PopupComponent, {
+            duration: 1000,
+            data: 'Record Updated...!'
+          });
+          this.map.removeLayer(this.layer);
+          this.layer = new maptalks.VectorLayer('vector').addTo(this.map);
+          this.applyMarkers(this.organization);
+      }
+    },
+    error => {
+      this.snackBar.openFromComponent(PopupComponent, {
+        duration: 2000,
+        data: 'Service Error...!'
+      });
+    });
+  }
+
+  deleteOrganization(element) {
   }
 
 }
