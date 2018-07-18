@@ -7,6 +7,8 @@ import { OverlayDeleteComponent } from '../../popup/overlay-delete/overlay-delet
 import { OverlayUpdateOrgComponent } from '../../popup/overlay-update-org/overlay-update-org.component';
 import { PopupComponent } from '../../popup/popup.component';
 
+import { environment } from '../../../environments/environment';
+
 export interface Tile {
   color: string;
   cols: number;
@@ -43,9 +45,14 @@ export class OrgviewComponent implements OnInit , AfterViewInit {
   }
 
   ngOnInit() {
-    this.service.mapLocation.subscribe(res => this.organization = res);
-    this.service.saveOrganization(this.organization);
 
+    if (environment.isDataAvailableInRealService) {
+
+    } else {
+      console.log('Mock Data :: Get the all Org Details ');
+      this.service.mapLocation.subscribe(res => this.organization = res);
+    this.service.saveOrganization(this.organization);
+    }
     this.dataSource = new MatTableDataSource<OrgMapInfo>(this.organization);
     this.dataSource.paginator = this.paginator;
   }

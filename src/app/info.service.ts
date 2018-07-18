@@ -31,7 +31,7 @@ export class InfoService {
 
   constructor(private http: HttpClient) {
 
-    if ( environment.isDataAvailableInService ) {
+    if ( environment.isDataAvailableInRealService ) {
 
     } else {
       this.org = mockData.orgList;

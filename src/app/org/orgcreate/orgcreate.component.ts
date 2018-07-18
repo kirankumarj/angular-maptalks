@@ -8,6 +8,8 @@ import * as maptalks from 'maptalks';
 import { PopupComponent } from '../../popup/popup.component';
 import { OrganizationService } from '../../services/organization.service';
 
+import { environment } from '../../../environments/environment';
+
 @Component({
   selector: 'app-orgcreate',
   templateUrl: './orgcreate.component.html',
@@ -28,29 +30,35 @@ export class OrgcreateComponent implements OnInit, AfterViewInit {
   addressInfo;
   addressLocation = [];
   newOrg = {
-    name: 'Enter Name',
+    name: '',
     latitude: 0,
     longitude: 0,
-    type: 'Enter Type',
-    info: 'Enter Info',
+    type: '',
+    info: '',
     address: {
-      city: 'City',
-      country: 'Country',
-      postcode: 'Postcode',
-      state: 'State',
-      state_district: 'State District'
+      city: '',
+      country: '',
+      postcode: '',
+      state: '',
+      state_district: ''
     }
   };
 
-  maps = [];
+  organizationsList = [];
   constructor(private service: InfoService, private snackBar: MatSnackBar,
     private organizationService: OrganizationService ) { }
 
   ngOnInit() {
     this.newOrg.latitude = 78.498;
     this.newOrg.longitude = 17.476;
-    // this.service.mapLocation.subscribe(res => this.maps = res);
-    // this.service.saveOrganization(this.maps);
+    if (environment.isDataAvailableInRealService) {
+      console.log('Hit the service :: Get the all Org Details ');
+      this.getAllOrganizations();
+    } else {
+      console.log('Mock Data :: Get the all Org Details ');
+      this.service.mapLocation.subscribe(res => this.organizationsList = res);
+      this.service.saveOrganization(this.organizationsList);
+    }
   }
 
   ngAfterViewInit() {
@@ -151,14 +159,19 @@ mapValues(ref, fromAddress, toAddress) {
   }
 
   saveOrg() {
-    // this.maps.push(this.newOrg);
-    // this.service.saveOrganization(this.maps);
-    // this.snackBar.openFromComponent(PopupComponent, {
-    //   duration: 1000,
-    //   data: 'Saved Data...!'
-    // });
-    // this.step = 0;
-    this.createOrganization();
+    if (environment.isDataAvailableInRealService) {
+      console.log('Hit Service:: Create Org ', this.newOrg);
+      this.createOrganization();
+    } else {
+      console.log('Mock Data :: Create Org ', this.newOrg);
+        this.organizationsList.push(this.newOrg);
+        this.service.saveOrganization(this.organizationsList);
+        this.snackBar.openFromComponent(PopupComponent, {
+        duration: 1000,
+        data: 'Saved Data...!'
+      });
+    this.step = 0;
+    }
   }
 
   searchMapLocationBySearchData() {
@@ -176,11 +189,28 @@ mapValues(ref, fromAddress, toAddress) {
           data: 'Saved Data...!'
         });
         this.step = 0;
+        this.newOrg.name = '';
+        this.newOrg.type = '';
+        this.newOrg.info = '';
       }
     },
     error => {
       this.snackBar.openFromComponent(PopupComponent, {
         duration: 2000,
+        data: 'Service Error...!'
+      });
+      this.step = 0;
+    });
+  }
+
+  getAllOrganizations() {
+    this.organizationService.getAllOrganizations().subscribe((res) => {
+      this.organizationsList = res;
+      console.log(this.organizationsList);
+    },
+    error => {
+      this.snackBar.openFromComponent(PopupComponent, {
+        duration: 3000,
         data: 'Service Error...!'
       });
       this.step = 0;
