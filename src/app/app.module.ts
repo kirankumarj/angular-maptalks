@@ -12,6 +12,8 @@ import { FormsModule } from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import { InfoService } from './info.service';
+import {OrganizationService } from './services/organization.service';
+import {RestService } from './services/rest.service';
 
 
 import {
@@ -27,7 +29,9 @@ import {
   MatCardModule,
   MatDividerModule,
   MatPaginatorModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatIconModule,
+  MatDialogModule
 } from '@angular/material';
 import { IncidentCreateComponent } from './incident/incident-create/incident-create.component';
 import { IncidentViewComponent } from './incident/incident-view/incident-view.component';
@@ -39,6 +43,8 @@ import { OrgcreateComponent } from './org/orgcreate/orgcreate.component';
 import { OrgviewComponent } from './org/orgview/orgview.component';
 
 import { HttpClientModule } from '@angular/common/http';
+import { OverlayDeleteComponent } from './popup/overlay-delete/overlay-delete.component';
+import { OverlayUpdateOrgComponent } from './popup/overlay-update-org/overlay-update-org.component';
 
 
 const module = [
@@ -54,7 +60,9 @@ const module = [
   MatCardModule,
   MatDividerModule,
   MatPaginatorModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatIconModule,
+  MatDialogModule
 ];
 @NgModule({
   declarations: [
@@ -69,7 +77,9 @@ const module = [
     TestRxjsComponent,
     PopupComponent,
     OrgcreateComponent,
-    OrgviewComponent
+    OrgviewComponent,
+    OverlayDeleteComponent,
+    OverlayUpdateOrgComponent
   ],
   imports: [
     BrowserModule,
@@ -82,8 +92,12 @@ const module = [
   exports: [
     ...module
   ],
-  entryComponents: [PopupComponent],
-  providers: [ InfoService ],
+  entryComponents: [
+    PopupComponent,
+    OverlayDeleteComponent,
+    OverlayUpdateOrgComponent
+  ],
+  providers: [ InfoService, RestService, OrganizationService ],
   bootstrap: [AppComponent],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

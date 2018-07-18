@@ -34,7 +34,7 @@ export class CreateComponent implements OnInit, AfterViewInit {
     this.newOrg.id = '0';
     this.newOrg.name = 'enter org name';
     this.service.mapLocation.subscribe(res => this.maps = res);
-    this.service.saveMapLocation(this.maps);
+    this.service.saveOrganization(this.maps);
   }
 
   ngAfterViewInit() {
@@ -105,7 +105,7 @@ export class CreateComponent implements OnInit, AfterViewInit {
     console.log(this.maps);
     console.log(this.newOrg);
     this.maps.push(this.newOrg);
-    this.service.saveMapLocation(this.maps);
+    this.service.saveOrganization(this.maps);
     this.snackBar.openFromComponent(PopupComponent, {
       duration: 1000,
     });

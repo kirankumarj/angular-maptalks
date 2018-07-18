@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  isDataAvailableInService: false,
+  production: false,
+  findMapLocationBySearchDataURL : 'http://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=5&q=',
+  findMapLocationBySearchLLURL : 'http://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=5&q='
 };
 
 /*

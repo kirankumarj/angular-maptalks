@@ -32,7 +32,7 @@ export class FindComponent implements OnInit , AfterViewInit {
 
   ngOnInit() {
     this.service.mapLocation.subscribe(res => this.organization = res);
-    this.service.saveMapLocation(this.organization);
+    this.service.saveOrganization(this.organization);
 
     this.dataSource = new MatTableDataSource<OrgMapInfo>(this.organization);
     this.dataSource.paginator = this.paginator;

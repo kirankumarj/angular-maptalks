@@ -38,10 +38,10 @@
           <table mat-table [dataSource]="dataSource">
 
             <!-- Position Column -->
-            <ng-container matColumnDef="id">
+            <!-- <ng-container matColumnDef="id">
               <th mat-header-cell *matHeaderCellDef> ID </th>
               <td mat-cell *matCellDef="let element" (click)="animateMap(element)"> {{element.id}} </td>
-            </ng-container>
+            </ng-container> -->
 
             <!-- Name Column -->
             <ng-container matColumnDef="name">
@@ -58,8 +58,25 @@
             <ng-container matColumnDef="info">
                 <th mat-header-cell *matHeaderCellDef> Info </th>
                 <td mat-cell *matCellDef="let element" (click)="animateMap(element)"> {{element.info}} </td>
-              </ng-container>
+            </ng-container>
 
+            <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef> Action </th>
+                  <!-- <td mat-cell *matCellDef="let element" (click)="animateMap(element)"> {{element.info}} </td> -->
+               <td mat-cell *matCellDef="let element">
+                 <button mat-icon-button [matMenuTriggerFor]="menu">
+                      <mat-icon>...</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                      <button mat-menu-item (click)="updateRecord(element)">
+                        <span>Update</span>
+                      </button>
+                      <button mat-menu-item (click)="deleteRecord(element)">
+                        <span>Delete</span>
+                      </button>
+                    </mat-menu>
+                  </td>
+            </ng-container>
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 

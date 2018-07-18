@@ -1,8 +1,11 @@
 import { Component, OnInit ,  AfterViewChecked, AfterViewInit, ViewChild} from '@angular/core';
 import { InfoService } from '../../info.service';
-import { MatTableDataSource, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatDialog, MatSnackBar } from '@angular/material';
 import { OrgMapInfo } from '../../models/organization/OrgMapInfo';
 import * as maptalks from 'maptalks';
+import { OverlayDeleteComponent } from '../../popup/overlay-delete/overlay-delete.component';
+import { OverlayUpdateOrgComponent } from '../../popup/overlay-update-org/overlay-update-org.component';
+import { PopupComponent } from '../../popup/popup.component';
 
 export interface Tile {
   color: string;
@@ -18,7 +21,7 @@ export interface Tile {
 })
 
 export class OrgviewComponent implements OnInit , AfterViewInit {
-  displayedColumns: string[] = ['id', 'name', 'type', 'info'];
+  displayedColumns: string[] = ['name', 'type', 'info', 'action'];
   dataSource;
   organization;
   mapSelcted = '';
@@ -26,14 +29,22 @@ export class OrgviewComponent implements OnInit , AfterViewInit {
   layer;
   map;
   marker;
+  orgIndex;
+  action;
+  updateData = {
+    id: '',
+    name: '',
+    type: '',
+    info: ''
+  };
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private service: InfoService) {
+  constructor(private service: InfoService, private matDialog: MatDialog, private snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
     this.service.mapLocation.subscribe(res => this.organization = res);
-    this.service.saveMapLocation(this.organization);
+    this.service.saveOrganization(this.organization);
 
     this.dataSource = new MatTableDataSource<OrgMapInfo>(this.organization);
     this.dataSource.paginator = this.paginator;
@@ -169,6 +180,58 @@ export class OrgviewComponent implements OnInit , AfterViewInit {
     // })
     // .addTo(this.map);
 
+  }
+
+  updateRecord(element) {
+    console.log(element);
+    const dialogRef = this.matDialog.open(OverlayUpdateOrgComponent, {
+      width: '250px',
+      data: {actualData: element, updateData: this.updateData}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      console.log(this.updateData);
+      if (result) {
+        element.id = this.updateData.id;
+        element.name = this.updateData.name;
+        element.tyep = this.updateData.type;
+        element.info = this.updateData.info;
+        this.snackBar.openFromComponent(PopupComponent, {
+          duration: 1000,
+          data: 'Updated Data...!'
+        });
+        this.map.removeLayer(this.layer);
+        this.layer = new maptalks.VectorLayer('vector').addTo(this.map);
+        this.applyMarkers(this.organization);
+      }
+    });
+  }
+
+  deleteRecord(element) {
+    console.log(element);
+    this.orgIndex = this.organization.indexOf(element);
+    this.openDialog();
+  }
+
+  openDialog(): void {
+    const dialogRef = this.matDialog.open(OverlayDeleteComponent, {
+      width: '250px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      if (result) {
+        if (this.orgIndex !== -1) {
+          this.organization.splice(this.orgIndex, 1);
+          this.service.saveOrganization(this.organization);
+          this.dataSource = new MatTableDataSource<OrgMapInfo>(this.organization);
+          this.map.removeLayer(this.layer);
+          this.layer = new maptalks.VectorLayer('vector').addTo(this.map);
+          this.applyMarkers(this.organization);
+        }
+      }
+    });
   }
 
 }

@@ -6,8 +6,7 @@ import { MatSnackBar } from '@angular/material';
 
 import * as maptalks from 'maptalks';
 import { PopupComponent } from '../../popup/popup.component';
-import { HttpClient } from '@angular/common/http';
-import { resetFakeAsyncZone } from '../../../../node_modules/@angular/core/testing';
+import { OrganizationService } from '../../services/organization.service';
 
 @Component({
   selector: 'app-orgcreate',
@@ -29,7 +28,6 @@ export class OrgcreateComponent implements OnInit, AfterViewInit {
   addressInfo;
   addressLocation = [];
   newOrg = {
-    id: 'Enter Id',
     name: 'Enter Name',
     latitude: 0,
     longitude: 0,
@@ -45,15 +43,14 @@ export class OrgcreateComponent implements OnInit, AfterViewInit {
   };
 
   maps = [];
-  constructor(private service: InfoService, private snackBar: MatSnackBar, private http: HttpClient) { }
+  constructor(private service: InfoService, private snackBar: MatSnackBar,
+    private organizationService: OrganizationService ) { }
 
   ngOnInit() {
     this.newOrg.latitude = 78.498;
     this.newOrg.longitude = 17.476;
-    this.newOrg.id = '0';
-    this.newOrg.name = 'enter org name';
-    this.service.mapLocation.subscribe(res => this.maps = res);
-    this.service.saveMapLocation(this.maps);
+    // this.service.mapLocation.subscribe(res => this.maps = res);
+    // this.service.saveOrganization(this.maps);
   }
 
   ngAfterViewInit() {
@@ -64,7 +61,6 @@ export class OrgcreateComponent implements OnInit, AfterViewInit {
         }
     );
   }
-
 
   setStep(index: number) {
     this.step = index;
@@ -96,7 +92,7 @@ export class OrgcreateComponent implements OnInit, AfterViewInit {
       attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
     })
     });
-    let ref = this;
+    const ref = this;
     this.map.on('zoomend moveend', getStatus);
   function getStatus() {
           ref.addressInfo = '';
@@ -155,17 +151,39 @@ mapValues(ref, fromAddress, toAddress) {
   }
 
   saveOrg() {
-    this.maps.push(this.newOrg);
-    this.service.saveMapLocation(this.maps);
-    this.snackBar.openFromComponent(PopupComponent, {
-      duration: 1000,
-    });
-    this.step = 0;
+    // this.maps.push(this.newOrg);
+    // this.service.saveOrganization(this.maps);
+    // this.snackBar.openFromComponent(PopupComponent, {
+    //   duration: 1000,
+    //   data: 'Saved Data...!'
+    // });
+    // this.step = 0;
+    this.createOrganization();
   }
 
   searchMapLocationBySearchData() {
     this.service.getMapLocationData(this.searchAddress).subscribe((res) => {
       this.address = res;
+    });
+  }
+
+  createOrganization() {
+    this.organizationService.createOrganization(this.newOrg).subscribe((res) => {
+      console.log(res);
+      if ( res.id ) {
+        this.snackBar.openFromComponent(PopupComponent, {
+          duration: 1000,
+          data: 'Saved Data...!'
+        });
+        this.step = 0;
+      }
+    },
+    error => {
+      this.snackBar.openFromComponent(PopupComponent, {
+        duration: 2000,
+        data: 'Service Error...!'
+      });
+      this.step = 0;
     });
   }
 }
