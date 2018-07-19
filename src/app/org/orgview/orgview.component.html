@@ -36,7 +36,7 @@
   <div id="leftcolumn">
       <div class="example-container" style="background: white; padding: 10px; margin: 2px;">
           <mat-form-field hintLabel="Search contents by org name, info or type ">
-            <input matInput #input placeholder="Search Info">
+            <input matInput #input placeholder="Search Info" (keyup)="filterOrgInfo(input.value)">
             <!-- <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint> -->
           </mat-form-field>
         </div>

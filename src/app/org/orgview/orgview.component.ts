@@ -322,8 +322,11 @@ export class OrgviewComponent implements OnInit , AfterViewInit {
     });
   }
 
-  filterOrgInfo() {
-
+  filterOrgInfo(value) {
+          this.dataSource.filter = value.trim().toLowerCase();
+          this.map.removeLayer(this.layer);
+          this.layer = new maptalks.VectorLayer('vector').addTo(this.map);
+          this.applyMarkers(this.dataSource.filteredData);
   }
 
   deleteOrganization(element) {
