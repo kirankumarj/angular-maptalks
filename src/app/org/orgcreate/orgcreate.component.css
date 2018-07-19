@@ -28,7 +28,6 @@ table {
 }
 
 #wrapper {
-  width: 1024px;
   margin: 0 auto;
 }
 #leftcolumn, #rightcolumn {
@@ -38,12 +37,12 @@ table {
  color: black;
 }
 #leftcolumn {
-  width: 450px;
+  width: 550px;
   background-color: #777;
   height: 540px;
 }
 #rightcolumn {
-  width: 550px;
+  width: 650px;
   background-color:black;
 }
 

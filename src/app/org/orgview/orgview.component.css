@@ -28,8 +28,7 @@ table {
 }
 
 #wrapper {
-  width: 1024px;
-  margin: 0 auto;
+  margin: 10px auto;
 }
 #leftcolumn, #rightcolumn {
  border: 1px solid grey;
@@ -38,11 +37,20 @@ table {
  color: black;
 }
 #leftcolumn {
-  width: 450px;
+  width: 550px;
   background-color: #777;
   height: 540px;
 }
 #rightcolumn {
-  width: 550px;
+  width: 650px;
   background-color:black;
+}
+
+.example-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.example-container > * {
+  width: 100%;
 }

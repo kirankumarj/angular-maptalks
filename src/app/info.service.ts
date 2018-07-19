@@ -64,8 +64,7 @@ export class InfoService {
   }
 
   getMapLocationDataByLL(latitude , longitude): Observable<any> {
-    return this.http.get('https://nominatim.openstreetmap.org/reverse?format=json&lat='
-    + longitude + '&lon=' + latitude + '&addressdetails=1');
+    return this.http.get(this.findMapLocationBySearchLLURL + longitude + '&lon=' + latitude + '&addressdetails=1');
   }
 
 }

@@ -130,8 +130,8 @@ export class OrgcreateComponent implements OnInit, AfterViewInit {
       'MaxZoom : ' + ref.map.getMaxZoom(),
       'Projection : ' + ref.map.getProjection().code
     ];
-     ref.newOrg.latitude =  parseFloat(ref.center.x.toFixed(3));
-     ref.newOrg.longitude = parseFloat(ref.center.y.toFixed(3));
+     ref.newOrg.latitude =  parseFloat(ref.center.x.toFixed(5));
+     ref.newOrg.longitude = parseFloat(ref.center.y.toFixed(5));
      ref.service.getMapLocationDataByLL(ref.newOrg.latitude, ref.newOrg.longitude).
      subscribe((res) => {
           ref.addressInfo = res;

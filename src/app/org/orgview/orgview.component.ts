@@ -26,7 +26,7 @@ export interface Tile {
 export class OrgviewComponent implements OnInit , AfterViewInit {
   displayedColumns: string[] = ['name', 'type', 'info', 'action'];
   dataSource;
-  organization;
+  organization = [];
   mapSelcted = '';
   incidentLocations = [];
   layer;
@@ -35,6 +35,7 @@ export class OrgviewComponent implements OnInit , AfterViewInit {
   orgIndex;
   action;
   updateData = {
+    id: '',
     name: '',
     latitude: 0,
     longitude: 0,
@@ -118,9 +119,9 @@ export class OrgviewComponent implements OnInit , AfterViewInit {
     });
   }
 // map initializations
-  mapInitialization() {
+  mapInitialization(lat, lon ) {
     this.map = new maptalks.Map('map', {
-      center: [-0.113049, 51.498568],
+      center: [lat, lon],
       zoom: 14,
       baseLayer: new maptalks.TileLayer('base', {
         urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
@@ -131,7 +132,8 @@ export class OrgviewComponent implements OnInit , AfterViewInit {
   }
 
   loadMap() {
-   this.mapInitialization();
+    const size = this.organization.length - 1;
+   this.mapInitialization(this.organization[size].latitude, this.organization[size].longitude);
     const ref  = this;
 
     this.layer = new maptalks.VectorLayer('vector').addTo(this.map);
@@ -223,6 +225,7 @@ export class OrgviewComponent implements OnInit , AfterViewInit {
           this.map.removeLayer(this.layer);
           this.layer = new maptalks.VectorLayer('vector').addTo(this.map);
           this.applyMarkers(this.organization);
+          this.animateMap(element);
         }
       }
     });
@@ -317,6 +320,10 @@ export class OrgviewComponent implements OnInit , AfterViewInit {
         data: 'Service Error...!'
       });
     });
+  }
+
+  filterOrgInfo() {
+
   }
 
   deleteOrganization(element) {
