@@ -47,7 +47,7 @@ table {
 }
 
 div#search input {
-	width: 534px;
+	width: 530px;
 }
 div#results {
 	font-style: sans-serif;
@@ -60,7 +60,7 @@ div#search {
     position: absolute;
     top: 50px;
     height: auto;
-    padding: 5px;
+    padding: 2px;
     width: 537px;
     font-size: 15px;
 }

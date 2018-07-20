@@ -34,6 +34,7 @@ export class OrgviewComponent implements OnInit , AfterViewInit {
   marker;
   orgIndex;
   action;
+  filterSize = false;
   updateData = {
     id: '',
     name: '',
@@ -78,9 +79,9 @@ export class OrgviewComponent implements OnInit , AfterViewInit {
       setTimeout( ( ) => {
         this.map.animateTo({
           center: [element.latitude, element.longitude],
-          zoom: 14,
-          pitch: 40,
-          bearing: 180
+          zoom: 12,
+          pitch: 20,
+          bearing: 360
         }, {
           duration: 1000
         });
@@ -133,11 +134,19 @@ export class OrgviewComponent implements OnInit , AfterViewInit {
 
   loadMap() {
     const size = this.organization.length - 1;
-   this.mapInitialization(this.organization[size].latitude, this.organization[size].longitude);
+    if (0 <= size) {
+      this.mapInitialization(this.organization[size].latitude, this.organization[size].longitude);
+      this.layer = new maptalks.VectorLayer('vector').addTo(this.map);
+      this.applyMarkers(this.organization);
+    } else {
+      window.navigator.geolocation.getCurrentPosition((location) => {
+        this.mapInitialization(location.coords.longitude, location.coords.latitude);
+        });
+    }
+
     const ref  = this;
 
-    this.layer = new maptalks.VectorLayer('vector').addTo(this.map);
-    this.applyMarkers(this.organization);
+
 
     // vertical one on top right
     // new maptalks.control.Toolbar({
@@ -327,6 +336,11 @@ export class OrgviewComponent implements OnInit , AfterViewInit {
           this.map.removeLayer(this.layer);
           this.layer = new maptalks.VectorLayer('vector').addTo(this.map);
           this.applyMarkers(this.dataSource.filteredData);
+          if (this.dataSource.filteredData.length === 0) {
+            this.filterSize = true;
+          } else {
+            this.filterSize = false;
+          }
   }
 
   deleteOrganization(element) {

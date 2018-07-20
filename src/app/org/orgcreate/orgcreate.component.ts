@@ -90,7 +90,9 @@ export class OrgcreateComponent implements OnInit, AfterViewInit {
       center: [this.newOrg.latitude, this.newOrg.longitude],
       zoom: 12,
       centerCross: true,
-      zoomControl : true,
+      zoomControl: {
+        'position'  : 'top-right'
+      },
       baseLayer: new maptalks.TileLayer('base', {
       //   urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
       //   subdomains: ['a', 'b' , 'c' , 'd'],
