@@ -81,7 +81,7 @@ export class OrgviewComponent implements OnInit , AfterViewInit {
           center: [element.latitude, element.longitude],
           zoom: 12,
           pitch: 20,
-          bearing: 360
+          bearing: 0
         }, {
           duration: 1000
         });
