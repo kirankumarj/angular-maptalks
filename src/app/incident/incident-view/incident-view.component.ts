@@ -45,8 +45,8 @@ export class IncidentViewComponent implements AfterViewInit, OnInit {
         this.map.animateTo({
           center: [element.latitude, element.longitude],
           zoom: 14,
-          pitch: 40,
-          bearing: 180
+          pitch: 20,
+          bearing: 0
         }, {
           duration: 1000
         });

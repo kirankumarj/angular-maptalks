@@ -53,6 +53,7 @@ import { OrgviewComponent } from './org/orgview/orgview.component';
 import { HttpClientModule } from '@angular/common/http';
 import { OverlayDeleteComponent } from './popup/overlay-delete/overlay-delete.component';
 import { OverlayUpdateOrgComponent } from './popup/overlay-update-org/overlay-update-org.component';
+import { OrgupdateComponent } from './org/orgupdate/orgupdate.component';
 
 
 const module = [
@@ -87,7 +88,8 @@ const module = [
     OrgcreateComponent,
     OrgviewComponent,
     OverlayDeleteComponent,
-    OverlayUpdateOrgComponent
+    OverlayUpdateOrgComponent,
+    OrgupdateComponent
   ],
   imports: [
     BrowserModule,
