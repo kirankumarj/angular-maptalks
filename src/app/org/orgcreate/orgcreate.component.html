@@ -92,3 +92,10 @@
             </div>
     </div>
   </div>
+
+<ul *ngFor='let article of (articles | async)'>
+    <li>{{article.id}}</li>
+    <li>{{article.name}}</li>
+    <li>{{article.category}}</li>
+
+</ul>

@@ -1,5 +1,5 @@
 export interface OrgMapInfo {
-  id: string;
+  id?: string;
   name: string;
   latitude: number;
   longitude: number;

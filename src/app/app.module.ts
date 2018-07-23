@@ -14,6 +14,14 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { InfoService } from './info.service';
 import {OrganizationService } from './services/organization.service';
 import {RestService } from './services/rest.service';
+import {StoreModule} from '@ngrx/store';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import {AllReducers} from './app.reducers';
+import {EffectsModule} from '@ngrx/effects';
+import {OrgnizationEffects} from './org/store/org.effects';
+
+
+
 
 
 import {
@@ -87,7 +95,14 @@ const module = [
     HttpClientModule,
     ...module,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    StoreModule.forRoot(AllReducers),
+    EffectsModule.forRoot([OrgnizationEffects]),
+    StoreDevtoolsModule.instrument(
+     { 
+       maxAge:25
+      }
+    )
   ],
   exports: [
     ...module

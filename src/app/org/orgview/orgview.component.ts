@@ -1,4 +1,4 @@
-import { Component, OnInit ,  AfterViewChecked, AfterViewInit, ViewChild} from '@angular/core';
+import { Component, OnInit ,  AfterViewChecked, AfterViewInit, ViewChild,ChangeDetectionStrategy} from '@angular/core';
 import { InfoService } from '../../info.service';
 import { MatTableDataSource, MatPaginator, MatDialog, MatSnackBar } from '@angular/material';
 import { OrgMapInfo } from '../../models/organization/OrgMapInfo';
@@ -9,6 +9,12 @@ import { PopupComponent } from '../../popup/popup.component';
 
 import { environment } from '../../../environments/environment';
 import { OrganizationService } from '../../services/organization.service';
+import {Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
+import {AppState} from '../../app.state';
+import {getAllOrganizations} from '../store/org.reducers';
+import * as orgActions from '../store/org.actions';
+
 
 export interface Tile {
   color: string;
@@ -20,10 +26,12 @@ export interface Tile {
 @Component({
   selector: 'app-orgview',
   templateUrl: './orgview.component.html',
-  styleUrls: ['./orgview.component.css']
+  styleUrls: ['./orgview.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class OrgviewComponent implements OnInit , AfterViewInit {
+  organizationsList:Observable<OrgMapInfo[]>;
   displayedColumns: string[] = ['name', 'type', 'info', 'action'];
   dataSource;
   organization = [];
@@ -53,10 +61,14 @@ export class OrgviewComponent implements OnInit , AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private service: InfoService, private matDialog: MatDialog, private snackBar: MatSnackBar,
-    private organizationService: OrganizationService ) {
+    private organizationService: OrganizationService,
+  private store:Store<AppState> ) {
   }
 
   ngOnInit() {
+    // this.store.dispatch(new orgActions.GetAllOrganization() );
+    // console.log("From the ngOnInit");
+    // console.log(this.store);
   }
   ngAfterViewInit() {
     if (environment.isDataAvailableInRealService) {
@@ -291,6 +303,13 @@ export class OrgviewComponent implements OnInit , AfterViewInit {
   }
 
   getAllOrganizations() {
+    // console.log("Before selecting getAllOrganization store....");
+    // this.organizationsList = this.store.select(getAllOrganizations);
+    // console.log("After selecting getAllOrganization store....");
+    // console.log(this.organizationsList);
+//   this.store.dispatch(new orgActions.GetAllOrganization() );
+
+
     this.organizationService.getAllOrganizations().subscribe((res) => {
       this.organization = res;
       console.log(this.organization);

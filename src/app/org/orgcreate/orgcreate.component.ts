@@ -9,6 +9,12 @@ import { PopupComponent } from '../../popup/popup.component';
 import { OrganizationService } from '../../services/organization.service';
 
 import { environment } from '../../../environments/environment';
+import { Observable } from 'rxjs';
+import {Store} from '@ngrx/store';
+import {AppState} from '../../app.state';
+import { AddOrganization } from '../store/org.actions';
+
+
 
 @Component({
   selector: 'app-orgcreate',
@@ -46,7 +52,9 @@ export class OrgcreateComponent implements OnInit, AfterViewInit {
 
   organizationsList = [];
   constructor(private service: InfoService, private snackBar: MatSnackBar,
-    private organizationService: OrganizationService ) { }
+    private organizationService: OrganizationService ,
+    private store: Store<AppState>
+) { }
 
   ngOnInit() {
     this.newOrg.latitude = 78.498;
@@ -183,26 +191,28 @@ mapValues(ref, fromAddress, toAddress) {
   }
 
   createOrganization() {
-    this.organizationService.createOrganization(this.newOrg).subscribe((res) => {
-      console.log(res);
-      if ( res.id ) {
-        this.snackBar.openFromComponent(PopupComponent, {
-          duration: 1000,
-          data: 'Saved Data...!'
-        });
-        this.step = 0;
-        this.newOrg.name = '';
-        this.newOrg.type = '';
-        this.newOrg.info = '';
-      }
-    },
-    error => {
-      this.snackBar.openFromComponent(PopupComponent, {
-        duration: 2000,
-        data: 'Service Error...!'
-      });
-      this.step = 0;
-    });
+    this.store.dispatch(new AddOrganization(this.newOrg));
+
+    // this.organizationService.createOrganization(this.newOrg).subscribe((res) => {
+    //   console.log(res);
+    //   if ( res.id ) {
+    //     this.snackBar.openFromComponent(PopupComponent, {
+    //       duration: 1000,
+    //       data: 'Saved Data...!'
+    //     });
+    //     this.step = 0;
+    //     this.newOrg.name = '';
+    //     this.newOrg.type = '';
+    //     this.newOrg.info = '';
+    //   }
+    // },
+    // error => {
+    //   this.snackBar.openFromComponent(PopupComponent, {
+    //     duration: 2000,
+    //     data: 'Service Error...!'
+    //   });
+    //   this.step = 0;
+    // });
   }
 
   getAllOrganizations() {
