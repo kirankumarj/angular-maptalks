@@ -32,6 +32,7 @@ const routes: Routes = [
   { path: 'office-create', component: OfficeCreateComponent},
   { path: 'office-view', component: OfficeViewComponent},
   { path: 'org-create', component: OrgcreateComponent},
+  { path: 'org-view', component: OrgviewComponent},
   { path: 'resource-create', component: ResourceCreateComponent},
   { path: 'resource-view', component: ResourceViewComponent},
   { path: 'shelter-create', component: ShelterCreateComponent},

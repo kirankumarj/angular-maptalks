@@ -61,7 +61,7 @@ export class OrgviewComponent implements OnInit , AfterViewInit {
 
   constructor(private service: InfoService, private matDialog: MatDialog, private snackBar: MatSnackBar,
     private organizationService: OrganizationService,
-  private store:Store<AppState> ) {
+    private store:Store<AppState> ) {
   }
 
   ngOnInit() {
