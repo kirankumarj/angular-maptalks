@@ -54,6 +54,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { OverlayDeleteComponent } from './popup/overlay-delete/overlay-delete.component';
 import { OverlayUpdateOrgComponent } from './popup/overlay-update-org/overlay-update-org.component';
 import { OrgupdateComponent } from './org/orgupdate/orgupdate.component';
+import { AssertCreateComponent } from './assert/assert-create/assert-create.component';
+import { AssertViewComponent } from './assert/assert-view/assert-view.component';
+import { ResourceCreateComponent } from './resource/resource-create/resource-create.component';
+import { ResourceViewComponent } from './resource/resource-view/resource-view.component';
+import { ShelterCreateComponent } from './shelter/shelter-create/shelter-create.component';
+import { ShelterViewComponent } from './shelter/shelter-view/shelter-view.component';
 
 
 const module = [
@@ -89,7 +95,13 @@ const module = [
     OrgviewComponent,
     OverlayDeleteComponent,
     OverlayUpdateOrgComponent,
-    OrgupdateComponent
+    OrgupdateComponent,
+    AssertCreateComponent,
+    AssertViewComponent,
+    ResourceCreateComponent,
+    ResourceViewComponent,
+    ShelterCreateComponent,
+    ShelterViewComponent
   ],
   imports: [
     BrowserModule,
@@ -101,7 +113,7 @@ const module = [
     StoreModule.forRoot(AllReducers),
     EffectsModule.forRoot([OrgnizationEffects]),
     StoreDevtoolsModule.instrument(
-     { 
+     {
        maxAge:25
       }
     )

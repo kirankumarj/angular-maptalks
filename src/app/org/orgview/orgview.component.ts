@@ -15,7 +15,6 @@ import {AppState} from '../../app.state';
 import {getAllOrganizations} from '../store/org.reducers';
 import * as orgActions from '../store/org.actions';
 
-
 export interface Tile {
   color: string;
   cols: number;
