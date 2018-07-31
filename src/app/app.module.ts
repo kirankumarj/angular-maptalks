@@ -20,10 +20,6 @@ import {AllReducers} from './app.reducers';
 import {EffectsModule} from '@ngrx/effects';
 import {OrgnizationEffects} from './org/store/org.effects';
 
-
-
-
-
 import {
   MatButtonModule,
   MatCheckboxModule,
@@ -39,7 +35,8 @@ import {
   MatPaginatorModule,
   MatSnackBarModule,
   MatIconModule,
-  MatDialogModule
+  MatDialogModule,
+  MatSelectModule
 } from '@angular/material';
 import { IncidentCreateComponent } from './incident/incident-create/incident-create.component';
 import { IncidentViewComponent } from './incident/incident-view/incident-view.component';
@@ -77,7 +74,8 @@ const module = [
   MatPaginatorModule,
   MatSnackBarModule,
   MatIconModule,
-  MatDialogModule
+  MatDialogModule,
+  MatSelectModule
 ];
 @NgModule({
   declarations: [

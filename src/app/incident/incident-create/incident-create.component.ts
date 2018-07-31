@@ -12,7 +12,6 @@ import { PopupComponent } from '../../popup/popup.component';
   styleUrls: ['./incident-create.component.css']
 })
 export class IncidentCreateComponent implements OnInit, AfterViewInit {
-  office: Office;
   step = 0;
   organizations: OrgMapInfo[];
   newIncident = {
@@ -57,10 +56,6 @@ export class IncidentCreateComponent implements OnInit, AfterViewInit {
 
   prevStep() {
     this.step--;
-  }
-
-  saveOffice() {
-    console.log(this.office);
   }
 
   loadMap() {
