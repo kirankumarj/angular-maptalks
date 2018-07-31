@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OverlayDeleteComponent } from './overlay-delete.component';
+import {MaterialModule} from '../../materialModules';
+
 
 describe('OverlayDeleteComponent', () => {
   let component: OverlayDeleteComponent;
@@ -8,7 +10,10 @@ describe('OverlayDeleteComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OverlayDeleteComponent ]
+      declarations: [ OverlayDeleteComponent ],
+      imports:[
+        MaterialModule
+      ]
     })
     .compileComponents();
   }));

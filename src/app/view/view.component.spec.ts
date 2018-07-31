@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ViewComponent } from './view.component';
+import {MaterialModule} from '../materialModules';
+import { HttpClientModule } from '@angular/common/http';
+
+
 
 describe('ViewComponent', () => {
   let component: ViewComponent;
@@ -8,7 +12,11 @@ describe('ViewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ViewComponent ]
+      declarations: [ ViewComponent ],
+      imports:[
+        MaterialModule,
+        HttpClientModule
+      ]
     })
     .compileComponents();
   }));

@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IncidentViewComponent } from './incident-view.component';
+import {MaterialModule} from '../../materialModules';
+import { HttpClientModule } from '@angular/common/http';
+
+
 
 describe('IncidentViewComponent', () => {
   let component: IncidentViewComponent;
@@ -8,7 +12,9 @@ describe('IncidentViewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IncidentViewComponent ]
+      declarations: [ IncidentViewComponent ],
+      imports:[MaterialModule,
+        HttpClientModule]
     })
     .compileComponents();
   }));

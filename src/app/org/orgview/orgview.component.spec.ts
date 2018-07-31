@@ -1,6 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OrgviewComponent } from './orgview.component';
+import {MaterialModule} from '../../materialModules';
+import { HttpClientModule } from '@angular/common/http';
+import {EffectsModule} from '@ngrx/effects';
+import {StoreModule} from '@ngrx/store';
+import {AllReducers} from '../../app.reducers';
+import {CommonModule} from '@angular/common';
+
+
+
+
 
 describe('OrgviewComponent', () => {
   let component: OrgviewComponent;
@@ -8,7 +18,14 @@ describe('OrgviewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OrgviewComponent ]
+      declarations: [ OrgviewComponent ],
+      imports:[
+        MaterialModule,
+        HttpClientModule,
+        CommonModule,
+        StoreModule.forRoot(AllReducers),
+        EffectsModule.forRoot([]),
+      ]
     })
     .compileComponents();
   }));

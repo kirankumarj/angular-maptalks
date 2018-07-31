@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PopupComponent } from './popup.component';
+import {MaterialModule} from '../materialModules';
+import {MAT_SNACK_BAR_DATA} from '@angular/material';
+
+
 
 describe('PopupComponent', () => {
   let component: PopupComponent;
@@ -8,7 +12,13 @@ describe('PopupComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PopupComponent ]
+      declarations: [ PopupComponent ],
+      imports:[
+        MaterialModule
+      ],
+      providers:[
+           { provide: MAT_SNACK_BAR_DATA, useValue: {} },
+      ]
     })
     .compileComponents();
   }));
