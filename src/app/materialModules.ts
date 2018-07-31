@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -19,7 +19,8 @@ import {
   MatPaginatorModule,
   MatSnackBarModule,
   MatIconModule,
-  MatDialogModule
+  MatDialogModule,
+  MatSelectModule
 } from '@angular/material';
 const module = [
   MatButtonModule,
@@ -36,17 +37,16 @@ const module = [
   MatPaginatorModule,
   MatSnackBarModule,
   MatIconModule,
-  MatDialogModule
+  MatDialogModule,
+  MatSelectModule
 ];
 @NgModule({
   declarations: [
-    
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     ...module,
-    
   ],
   exports: [
     ...module

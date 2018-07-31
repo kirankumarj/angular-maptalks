@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-overlay-update-org',
@@ -22,7 +22,7 @@ export class OverlayUpdateOrgComponent implements OnInit {
     }
   };
 
-  constructor(public data: any) {
+  constructor(private data: any) {
     console.log(data);
     if ( data ) {
       this.orgDetails = data.updateData;

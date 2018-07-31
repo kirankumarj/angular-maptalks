@@ -19,25 +19,26 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {AllReducers} from './app.reducers';
 import {EffectsModule} from '@ngrx/effects';
 import {OrgnizationEffects} from './org/store/org.effects';
+import {MaterialModule} from './materialModules';
 
-import {
-  MatButtonModule,
-  MatCheckboxModule,
-  MatGridListModule,
-  MatMenuModule,
-  MatFormFieldModule,
-  MatInputModule,
-  MatRippleModule,
-  MatExpansionModule,
-  MatTableModule,
-  MatCardModule,
-  MatDividerModule,
-  MatPaginatorModule,
-  MatSnackBarModule,
-  MatIconModule,
-  MatDialogModule,
-  MatSelectModule
-} from '@angular/material';
+// import {
+//   MatButtonModule,
+//   MatCheckboxModule,
+//   MatGridListModule,
+//   MatMenuModule,
+//   MatFormFieldModule,
+//   MatInputModule,
+//   MatRippleModule,
+//   MatExpansionModule,
+//   MatTableModule,
+//   MatCardModule,
+//   MatDividerModule,
+//   MatPaginatorModule,
+//   MatSnackBarModule,
+//   MatIconModule,
+//   MatDialogModule,
+//   MatSelectModule
+// } from '@angular/material';
 import { IncidentCreateComponent } from './incident/incident-create/incident-create.component';
 import { IncidentViewComponent } from './incident/incident-view/incident-view.component';
 import { OfficeCreateComponent } from './office/office-create/office-create.component';
@@ -59,24 +60,24 @@ import { ShelterCreateComponent } from './shelter/shelter-create/shelter-create.
 import { ShelterViewComponent } from './shelter/shelter-view/shelter-view.component';
 
 
-const module = [
-  MatButtonModule,
-  MatCheckboxModule,
-  MatGridListModule,
-  MatMenuModule,
-  MatFormFieldModule,
-  MatInputModule,
-  MatRippleModule,
-  MatExpansionModule,
-  MatTableModule,
-  MatCardModule,
-  MatDividerModule,
-  MatPaginatorModule,
-  MatSnackBarModule,
-  MatIconModule,
-  MatDialogModule,
-  MatSelectModule
-];
+// const module = [
+//   MatButtonModule,
+//   MatCheckboxModule,
+//   MatGridListModule,
+//   MatMenuModule,
+//   MatFormFieldModule,
+//   MatInputModule,
+//   MatRippleModule,
+//   MatExpansionModule,
+//   MatTableModule,
+//   MatCardModule,
+//   MatDividerModule,
+//   MatPaginatorModule,
+//   MatSnackBarModule,
+//   MatIconModule,
+//   MatDialogModule,
+//   MatSelectModule
+// ];
 @NgModule({
   declarations: [
     AppComponent,
@@ -105,7 +106,7 @@ const module = [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    ...module,
+    MaterialModule,
     FormsModule,
     AppRoutingModule,
     StoreModule.forRoot(AllReducers),
@@ -117,7 +118,7 @@ const module = [
     )
   ],
   exports: [
-    ...module
+    MaterialModule
   ],
   entryComponents: [
     PopupComponent,

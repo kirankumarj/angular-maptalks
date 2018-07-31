@@ -10,13 +10,6 @@ import {StoreModule} from '@ngrx/store';
 import {AllReducers} from '../../app.reducers';
 import {CommonModule} from '@angular/common';
 
-
-
-
-
-
-
-
 describe('OrgcreateComponent', () => {
   let component: OrgcreateComponent;
   let fixture: ComponentFixture<OrgcreateComponent>;
@@ -24,7 +17,7 @@ describe('OrgcreateComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ OrgcreateComponent ],
-      imports:[
+      imports: [
         MaterialModule,
         FormsModule,
         HttpClientModule,
@@ -32,9 +25,7 @@ describe('OrgcreateComponent', () => {
         StoreModule.forRoot(AllReducers),
         EffectsModule.forRoot([]),
       ],
-      providers:[
-       
-
+      providers: [
       ]
     })
     .compileComponents();
@@ -48,5 +39,9 @@ describe('OrgcreateComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should create organization', () => {
+    expect(component.createOrganization()).toBeFalsy();
   });
 });

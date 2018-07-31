@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OverlayDeleteComponent } from './overlay-delete.component';
 import {MaterialModule} from '../../materialModules';
+import { CUSTOM_ELEMENTS_SCHEMA } from '../../../../node_modules/@angular/core';
 
 
 describe('OverlayDeleteComponent', () => {
@@ -11,9 +12,12 @@ describe('OverlayDeleteComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ OverlayDeleteComponent ],
-      imports:[
+      imports: [
         MaterialModule
-      ]
+      ],
+      schemas: [
+        CUSTOM_ELEMENTS_SCHEMA
+    ]
     })
     .compileComponents();
   }));
