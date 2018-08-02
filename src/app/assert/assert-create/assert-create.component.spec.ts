@@ -37,4 +37,29 @@ describe('AssertCreateComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('load map method calling', () => {
+
+  });
+
+  it('moveMap method', () => {
+    component.loadMap();
+    const assert = {
+      name: '',
+      lat: '78.498',
+      lon: '17.476',
+      type: '',
+      info: '',
+      display_name: '',
+      address: {
+        city: '',
+        country: '',
+        postcode: '',
+        state: '',
+        state_district: ''
+      }
+    };
+    const ref = this;
+    component.moveMap(assert);
+  });
 });

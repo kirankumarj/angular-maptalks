@@ -1,4 +1,4 @@
-import { Component, OnInit ,  AfterViewChecked, AfterViewInit, ViewChild,ChangeDetectionStrategy} from '@angular/core';
+import { Component, OnInit ,  AfterViewChecked, AfterViewInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import { InfoService } from '../../info.service';
 import { MatTableDataSource, MatPaginator, MatDialog, MatSnackBar } from '@angular/material';
 import { OrgMapInfo } from '../../models/organization/OrgMapInfo';
@@ -60,7 +60,7 @@ export class AssertViewComponent implements OnInit , AfterViewInit {
 
   constructor(private service: InfoService, private matDialog: MatDialog, private snackBar: MatSnackBar,
     private organizationService: OrganizationService,
-    private store:Store<AppState> ) {
+    private store: Store<AppState> ) {
   }
 
   ngOnInit() {

@@ -44,4 +44,35 @@ describe('OrgcreateComponent', () => {
   it('should create organization', () => {
     expect(component.createOrganization()).toBeFalsy();
   });
+
+  it('moveMap method', () => {
+    component.loadMap();
+    const newOrg = {
+      name: '',
+      lat: '78.498',
+      lon: '17.476',
+      type: '',
+      info: '',
+      display_name: '',
+      address: {
+        city: '',
+        country: '',
+        postcode: '',
+        state: '',
+        state_district: ''
+      }
+    };
+    const ref = this;
+    component.moveMap(newOrg);
+  });
+
+  it('should get AllOrganizations', () => {
+    expect(component.getAllOrganizations());
+  });
+
+  it('should get searchMapLocationBySearchData', () => {
+    this.searchAddress = 'Hyderabad';
+    expect(component.searchMapLocationBySearchData());
+  });
+
 });

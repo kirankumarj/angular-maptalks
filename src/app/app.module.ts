@@ -3,14 +3,10 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CreateComponent } from './create/create.component';
-import { FindComponent } from './find/find.component';
-import { ViewComponent } from './view/view.component';
-
-import { FormsModule } from '@angular/forms';
-
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
+
+import { FormsModule } from '@angular/forms';
 import { InfoService } from './info.service';
 import {OrganizationService } from './services/organization.service';
 import {RestService } from './services/rest.service';
@@ -81,9 +77,6 @@ import { ShelterViewComponent } from './shelter/shelter-view/shelter-view.compon
 @NgModule({
   declarations: [
     AppComponent,
-    CreateComponent,
-    FindComponent,
-    ViewComponent,
     IncidentCreateComponent,
     IncidentViewComponent,
     OfficeCreateComponent,
@@ -113,7 +106,7 @@ import { ShelterViewComponent } from './shelter/shelter-view/shelter-view.compon
     EffectsModule.forRoot([OrgnizationEffects]),
     StoreDevtoolsModule.instrument(
      {
-       maxAge:25
+       maxAge: 25
       }
     )
   ],

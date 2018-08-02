@@ -12,7 +12,7 @@ export class OrganizationService {
   constructor(private restService: RestService) { }
 
   public getAllOrganizations(): Observable<any> {
-    console.log("From the getAllOrganizations....");
+    console.log('From the getAllOrganizations....');
     return this.restService.findAll(AppConstants.ORGANIZATION_URL);
   }
 
@@ -21,7 +21,7 @@ export class OrganizationService {
   }
 
   public createOrganization(createRequest: any): Observable<any> {
-    console.log("From the createOrganization.....");
+    console.log('From the createOrganization.....');
     return this.restService.post(createRequest, AppConstants.ORGANIZATION_URL);
   }
 

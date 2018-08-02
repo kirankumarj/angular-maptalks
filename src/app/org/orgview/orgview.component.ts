@@ -1,4 +1,4 @@
-import { Component, OnInit ,  AfterViewChecked, AfterViewInit, ViewChild,ChangeDetectionStrategy} from '@angular/core';
+import { Component, OnInit ,  AfterViewChecked, AfterViewInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import { InfoService } from '../../info.service';
 import { MatTableDataSource, MatPaginator, MatDialog, MatSnackBar } from '@angular/material';
 import { OrgMapInfo } from '../../models/organization/OrgMapInfo';
@@ -30,7 +30,7 @@ export interface Tile {
 })
 
 export class OrgviewComponent implements OnInit , AfterViewInit {
-  organizationsList:Observable<OrgMapInfo[]>;
+  organizationsList: Observable<OrgMapInfo[]>;
   displayedColumns: string[] = ['name', 'type', 'info', 'action'];
   dataSource;
   organization = [];
@@ -61,7 +61,7 @@ export class OrgviewComponent implements OnInit , AfterViewInit {
 
   constructor(private service: InfoService, private matDialog: MatDialog, private snackBar: MatSnackBar,
     private organizationService: OrganizationService,
-    private store:Store<AppState> ) {
+    private store: Store<AppState> ) {
   }
 
   ngOnInit() {
@@ -154,71 +154,6 @@ export class OrgviewComponent implements OnInit , AfterViewInit {
         this.mapInitialization(location.coords.longitude, location.coords.latitude);
         });
     }
-
-    const ref  = this;
-
-
-
-    // vertical one on top right
-    // new maptalks.control.Toolbar({
-    //   'vertical' : true,
-    //   'position' : 'top-right',
-    //   'items'     : [{
-    //     item: 'Incidents',
-    //     click : function () { info('menu'); },
-    //     children : [{
-    //       item: 'Accidents',
-    //       click : function () {
-    //         ref.mapSelcted = 'accident';
-    //         ref.dataSource.filter = ref.mapSelcted.trim().toLowerCase();
-    //         ref.map.removeLayer(ref.layer);
-    //         ref.layer = new maptalks.VectorLayer('vector').addTo(ref.map);
-    //         ref.applyMarkers(ref.dataSource.filteredData);
-    //        }
-    //     }, {
-    //       item: 'Fires',
-    //       click : function () {
-    //         ref.mapSelcted = 'fire';
-    //         ref.dataSource.filter = ref.mapSelcted.trim().toLowerCase();
-    //         ref.map.removeLayer(ref.layer);
-    //         ref.layer = new maptalks.VectorLayer('vector').addTo(ref.map);
-    //         ref.applyMarkers(ref.dataSource.filteredData);
-    //       }
-    //     }, {
-    //       item: 'Earthquake',
-    //       click : function () {
-    //         ref.mapSelcted = 'earthquake';
-    //         ref.dataSource.filter = ref.mapSelcted.trim().toLowerCase();
-    //         ref.map.removeLayer(ref.layer);
-    //         ref.layer = new maptalks.VectorLayer('vector').addTo(ref.map);
-    //         ref.applyMarkers(ref.dataSource.filteredData);
-    //       }
-    //     }, {
-    //       item: 'Floods',
-    //       click : function () {
-    //         ref.mapSelcted = 'floods';
-    //         ref.dataSource.filter = ref.mapSelcted.trim().toLowerCase();
-    //         ref.map.removeLayer(ref.layer);
-    //         ref.layer = new maptalks.VectorLayer('vector').addTo(ref.map);
-    //         ref.applyMarkers(ref.dataSource.filteredData);
-    //       }
-    //     }, {
-    //         item: 'all',
-    //         click : function () {
-    //           ref.mapSelcted = '';
-    //           ref.dataSource.filter = ref.mapSelcted.trim().toLowerCase();
-    //           ref.map.removeLayer(ref.layer);
-    //         ref.layer = new maptalks.VectorLayer('vector').addTo(ref.map);
-    //         ref.applyMarkers(ref.organization);
-    //         }
-    //     }]
-    //   }, {
-    //     item: '---',
-    //     click : function () { ref.mapSelcted = 'fire'; }
-    //   }]
-    // })
-    // .addTo(this.map);
-
   }
 
   updateRecord(element) {
