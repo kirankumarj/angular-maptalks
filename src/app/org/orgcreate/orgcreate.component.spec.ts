@@ -9,7 +9,19 @@ import {EffectsModule} from '@ngrx/effects';
 import {StoreModule} from '@ngrx/store';
 import {AllReducers} from '../../app.reducers';
 import {CommonModule} from '@angular/common';
+import { PopupComponent } from '../../popup/popup.component';
+import { environment } from '../../../environments/environment';
 
+
+@NgModule({
+  declarations: [PopupComponent],
+  entryComponents: [
+    PopupComponent,
+  ]
+})
+class TestModule1 {}
+
+class TestModule {}
 describe('OrgcreateComponent', () => {
   let component: OrgcreateComponent;
   let fixture: ComponentFixture<OrgcreateComponent>;
@@ -24,6 +36,7 @@ describe('OrgcreateComponent', () => {
         CommonModule,
         StoreModule.forRoot(AllReducers),
         EffectsModule.forRoot([]),
+        TestModule1
       ],
       providers: [
       ]
@@ -34,45 +47,84 @@ describe('OrgcreateComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(OrgcreateComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+   fixture.detectChanges();
   });
 
+  const newObject = {
+    name: '',
+    lat: '78.498',
+    lon: '17.476',
+    type: '',
+    info: '',
+    display_name: '',
+    address: {
+      city: '',
+      country: '',
+      postcode: '',
+      state: '',
+      state_district: ''
+    }
+  };
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should create organization', () => {
-    expect(component.createOrganization()).toBeFalsy();
-  });
-
-  it('moveMap method', () => {
+  it('moveMap method test case', () => {
     component.loadMap();
-    const newOrg = {
-      name: '',
-      lat: '78.498',
-      lon: '17.476',
-      type: '',
-      info: '',
-      display_name: '',
-      address: {
-        city: '',
-        country: '',
-        postcode: '',
-        state: '',
-        state_district: ''
-      }
-    };
-    const ref = this;
-    component.moveMap(newOrg);
+    component.moveMap(newObject);
   });
 
-  it('should get AllOrganizations', () => {
-    expect(component.getAllOrganizations());
+  it('Org Create :: Save Org method test case', () => {
+    component.loadMap();
+    this.newOrg = newObject;
+    component.saveOrg();
+  });
+  it('Org Create :: get AllOrganizations test case', () => {
+    component.loadMap();
+    this.newOrg = newObject;
+    component.getAllOrganizations();
+  });
+  it('Org Create :: create Organization method test case', () => {
+    component.loadMap();
+    this.newOrg = newObject;
+    component.createOrganization();
+  });
+  it('Org Create :: ngAfterViewInit method test case', () => {
+    component.loadMap();
+    this.newOrg = newObject;
+    component.ngAfterViewInit();
+  });
+  it('Org Create :: get Status method test case', () => {
+    component.loadMap();
+    this.newOrg = newObject;
+    component.getStatus();
+  });
+  it('Org Create :: next Step method & previous Step test case', () => {
+    component.loadMap();
+    this.newOrg = newObject;
+    component.nextStep();
+    component.prevStep();
   });
 
-  it('should get searchMapLocationBySearchData', () => {
-    this.searchAddress = 'Hyderabad';
-    expect(component.searchMapLocationBySearchData());
+  it('Org Create :: searchMapLocationBySearchData method test case', () => {
+    component.loadMap();
+    this.newOrg = newObject;
+    component.searchMapLocationBySearchData();
+  });
+
+  it('Org Create :: service flag true test case (calls real API) ', () => {
+    component.loadMap();
+    this.newOrg = newObject;
+    environment.isDataAvailableInRealService = true;
+    component.saveOrg();
+    component.getAllOrganizations();
+    component.createOrganization();
+    component.ngAfterViewInit();
+    component.getStatus();
+    component.nextStep();
+    component.prevStep();
+    component.searchMapLocationBySearchData();
+    environment.isDataAvailableInRealService = false;
   });
 
 });

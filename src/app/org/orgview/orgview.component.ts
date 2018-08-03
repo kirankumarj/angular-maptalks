@@ -171,7 +171,7 @@ export class OrgviewComponent implements OnInit , AfterViewInit {
           this.updateOrganization(element);
         } else {
           element.name = this.updateData.name;
-          element.tyep = this.updateData.type;
+          element.type = this.updateData.type;
           element.info = this.updateData.info;
           this.snackBar.openFromComponent(PopupComponent, {
             duration: 1000,
