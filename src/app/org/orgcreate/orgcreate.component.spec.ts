@@ -47,7 +47,7 @@ describe('OrgcreateComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(OrgcreateComponent);
     component = fixture.componentInstance;
-   fixture.detectChanges();
+     fixture.detectChanges();
   });
 
   const newObject = {
@@ -72,12 +72,15 @@ describe('OrgcreateComponent', () => {
   it('moveMap method test case', () => {
     component.loadMap();
     component.moveMap(newObject);
+    expect(fixture.debugElement.componentInstance.step).toBe(2);
   });
 
   it('Org Create :: Save Org method test case', () => {
     component.loadMap();
     this.newOrg = newObject;
+    const lengthList = fixture.debugElement.componentInstance.organizationsList.length;
     component.saveOrg();
+    expect(fixture.debugElement.componentInstance.organizationsList.length).toBe(lengthList + 1);
   });
   it('Org Create :: get AllOrganizations test case', () => {
     component.loadMap();
@@ -103,7 +106,9 @@ describe('OrgcreateComponent', () => {
     component.loadMap();
     this.newOrg = newObject;
     component.nextStep();
+    expect(fixture.debugElement.componentInstance.step).toBe(1);
     component.prevStep();
+    expect(fixture.debugElement.componentInstance.step).toBe(0);
   });
 
   it('Org Create :: searchMapLocationBySearchData method test case', () => {
