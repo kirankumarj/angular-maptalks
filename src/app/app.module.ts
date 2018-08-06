@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { InfoService } from './info.service';
 import {OrganizationService } from './services/organization.service';
 import {RestService } from './services/rest.service';
@@ -16,6 +16,7 @@ import {AllReducers} from './app.reducers';
 import {EffectsModule} from '@ngrx/effects';
 import {OrgnizationEffects} from './org/store/org.effects';
 import {MaterialModule} from './materialModules';
+
 
 // import {
 //   MatButtonModule,
@@ -54,6 +55,10 @@ import { ResourceCreateComponent } from './resource/resource-create/resource-cre
 import { ResourceViewComponent } from './resource/resource-view/resource-view.component';
 import { ShelterCreateComponent } from './shelter/shelter-create/shelter-create.component';
 import { ShelterViewComponent } from './shelter/shelter-view/shelter-view.component';
+import { CreateAssetsComponent } from './new-assets/create-assets/create-assets.component';
+import { AssetsService } from './services/assets/assets.service';
+import { AssetsEffects } from './new-assets/store/assets.effects';
+
 
 
 // const module = [
@@ -93,7 +98,8 @@ import { ShelterViewComponent } from './shelter/shelter-view/shelter-view.compon
     ResourceCreateComponent,
     ResourceViewComponent,
     ShelterCreateComponent,
-    ShelterViewComponent
+    ShelterViewComponent,
+    CreateAssetsComponent
   ],
   imports: [
     BrowserModule,
@@ -101,9 +107,10 @@ import { ShelterViewComponent } from './shelter/shelter-view/shelter-view.compon
     HttpClientModule,
     MaterialModule,
     FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     StoreModule.forRoot(AllReducers),
-    EffectsModule.forRoot([OrgnizationEffects]),
+    EffectsModule.forRoot([OrgnizationEffects,AssetsEffects]),
     StoreDevtoolsModule.instrument(
      {
        maxAge: 25
@@ -118,7 +125,7 @@ import { ShelterViewComponent } from './shelter/shelter-view/shelter-view.compon
     OverlayDeleteComponent,
     OverlayUpdateOrgComponent
   ],
-  providers: [ InfoService, RestService, OrganizationService ],
+  providers: [ InfoService, RestService, OrganizationService ,AssetsService],
   bootstrap: [AppComponent],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

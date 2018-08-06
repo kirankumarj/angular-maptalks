@@ -1,0 +1,41 @@
+<div id="wrapper">
+  <div id="leftcolumn">
+        <form [formGroup]="assets" (ngSubmit)="createAsset()"> 
+      <mat-accordion class="example-headers-align">
+          <mat-expansion-panel [expanded]="step === 0"  hideToggle>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Assets
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    Enter Assets Details
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                    <mat-form-field >
+                        <input matInput placeholder="Asset Name" formControlName='name'/>
+                    </mat-form-field>
+                        <mat-form-field>
+                                <mat-select placeholder="Select organization" formControlName='organizationName'>
+                                  <mat-option *ngFor="let organization of organizationList" [value]="organization.name">
+                                    {{organization.name}}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                <mat-action-row>
+                    <button mat-button color="primary" type="submit">Submit</button>
+                  </mat-action-row>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </form>
+    </div>
+
+    <div id="rightcolumn" style="color:black;">
+            <div id="map" class="container"></div>
+            <div id="search">
+                <input type="text" (keyup)="searchMapLocationBySearchData()" id="mapSearch" [(ngModel)]="searchAddress" type="text" name="addr" value="" id="addr" size="10" placeholder="Search location"/>
+                <div *ngFor="let addressDetails of address">
+                  <div (click)="moveMap(addressDetails)" style="border: 1px solid black; margin: 0.5 px;">{{addressDetails.display_name}}</div>
+                 </div>
+              </div>
+      </div>
+    </div>

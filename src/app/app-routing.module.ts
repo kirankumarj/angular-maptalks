@@ -18,6 +18,8 @@ import { ShelterViewComponent } from './shelter/shelter-view/shelter-view.compon
 
 import { AssertCreateComponent } from './assert/assert-create/assert-create.component';
 import { AssertViewComponent } from './assert/assert-view/assert-view.component';
+import { CreateAssetsComponent } from './new-assets/create-assets/create-assets.component';
+
 
 const routes: Routes = [
   { path: '', component: OrgcreateComponent},
@@ -31,7 +33,8 @@ const routes: Routes = [
   { path: 'resource-view', component: ResourceViewComponent},
   { path: 'shelter-create', component: ShelterCreateComponent},
   { path: 'shelter-view', component: ShelterViewComponent},
-  { path: 'assert-create', component: AssertCreateComponent},
+  // { path: 'assert-create', component: AssertCreateComponent},
+  { path: 'assert-create', component: CreateAssetsComponent},
   { path: 'assert-view', component: AssertViewComponent},
 
 ];
