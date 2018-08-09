@@ -11,6 +11,7 @@ import {AllReducers} from '../../app.reducers';
 import {CommonModule} from '@angular/common';
 import { PopupComponent } from '../../popup/popup.component';
 import { environment } from '../../../environments/environment';
+import { OrganizationService } from '../../services/organization.service';
 
 
 @NgModule({
@@ -115,6 +116,13 @@ describe('OrgcreateComponent', () => {
     component.loadMap();
     this.newOrg = newObject;
     component.searchMapLocationBySearchData();
+  });
+
+  it('Org Create :: Mock the service', () => {
+    component.loadMap();
+    this.newOrg = newObject;
+    component.searchMapLocationBySearchData();
+   // spyOn(organizationService, 'getAllOrganizations()').and.returnValue();
   });
 
   it('Org Create :: service flag true test case (calls real API) ', () => {

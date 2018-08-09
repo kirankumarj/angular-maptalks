@@ -9,14 +9,14 @@ import {RestService} from './rest.service';
 describe('OrganizationService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports:[
+      imports: [
         HttpClientModule
       ],
-      providers: [OrganizationService,RestService]
+      providers: [OrganizationService, RestService]
     });
   });
 
-  it('should be created', inject([OrganizationService,RestService], (service: OrganizationService) => {
+  it('should be created', inject([OrganizationService, RestService], (service: OrganizationService) => {
     expect(service).toBeTruthy();
   }));
 });

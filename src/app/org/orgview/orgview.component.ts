@@ -82,9 +82,7 @@ export class OrgviewComponent implements OnInit , AfterViewInit {
       this.loadMap();
     }
   }
-  locateTheIncident(incident) {
-    console.log(incident);
-  }
+
   animateMap(element) {
     console.log(element);
       setTimeout( ( ) => {
@@ -295,8 +293,4 @@ export class OrgviewComponent implements OnInit , AfterViewInit {
             this.filterSize = false;
           }
   }
-
-  deleteOrganization(element) {
-  }
-
 }

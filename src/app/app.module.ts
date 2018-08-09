@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { InfoService } from './info.service';
 import {OrganizationService } from './services/organization.service';
 import {RestService } from './services/rest.service';
@@ -101,6 +101,7 @@ import { ShelterViewComponent } from './shelter/shelter-view/shelter-view.compon
     HttpClientModule,
     MaterialModule,
     FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     StoreModule.forRoot(AllReducers),
     EffectsModule.forRoot([OrgnizationEffects]),

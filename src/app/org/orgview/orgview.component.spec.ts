@@ -7,9 +7,36 @@ import {EffectsModule} from '@ngrx/effects';
 import {StoreModule} from '@ngrx/store';
 import {AllReducers} from '../../app.reducers';
 import {CommonModule} from '@angular/common';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { PopupComponent } from '../../popup/popup.component';
+import { OverlayUpdateOrgComponent } from '../../popup/overlay-update-org/overlay-update-org.component';
+import { FormsModule } from '@angular/forms';
+import {MatDialogModule} from '@angular/material/dialog';
 
+@NgModule({
+  declarations: [PopupComponent],
+  entryComponents: [
+    PopupComponent,
+  ],
+  imports: [
+  ]
+})
+class TestModulePopupComponent {}
 
-
+@NgModule({
+  declarations: [OverlayUpdateOrgComponent],
+  entryComponents: [
+    OverlayUpdateOrgComponent,
+  ],
+  imports: [
+    FormsModule,
+    MatDialogModule
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+]
+})
+class TestModuleOverLay {}
 
 
 describe('OrgviewComponent', () => {
@@ -19,13 +46,19 @@ describe('OrgviewComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ OrgviewComponent ],
-      imports:[
+      imports: [
+        FormsModule,
         MaterialModule,
         HttpClientModule,
         CommonModule,
         StoreModule.forRoot(AllReducers),
         EffectsModule.forRoot([]),
-      ]
+        TestModulePopupComponent,
+        TestModuleOverLay,
+      ],
+      schemas: [
+        CUSTOM_ELEMENTS_SCHEMA
+    ]
     })
     .compileComponents();
   }));
@@ -38,5 +71,25 @@ describe('OrgviewComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  const newObject = {
+    name: '',
+    lat: '78.498',
+    lon: '17.476',
+    type: '',
+    info: '',
+    display_name: '',
+    address: {
+      city: '',
+      country: '',
+      postcode: '',
+      state: '',
+      state_district: ''
+    }
+  };
+  it('Org View :: ngAfterViewInit method calling', () => {
+    component.updateRecord(newObject);
+    // expect(component).toBeTruthy();
   });
 });
