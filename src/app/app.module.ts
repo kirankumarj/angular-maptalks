@@ -17,6 +17,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {OrgnizationEffects} from './org/store/org.effects';
 import {MaterialModule} from './materialModules';
 
+
 // import {
 //   MatButtonModule,
 //   MatCheckboxModule,
@@ -54,6 +55,10 @@ import { ResourceCreateComponent } from './resource/resource-create/resource-cre
 import { ResourceViewComponent } from './resource/resource-view/resource-view.component';
 import { ShelterCreateComponent } from './shelter/shelter-create/shelter-create.component';
 import { ShelterViewComponent } from './shelter/shelter-view/shelter-view.component';
+import { CreateAssetsComponent } from './new-assets/create-assets/create-assets.component';
+import { AssetsService } from './services/assets/assets.service';
+import { AssetsEffects } from './new-assets/store/assets.effects';
+
 
 
 // const module = [
@@ -93,7 +98,8 @@ import { ShelterViewComponent } from './shelter/shelter-view/shelter-view.compon
     ResourceCreateComponent,
     ResourceViewComponent,
     ShelterCreateComponent,
-    ShelterViewComponent
+    ShelterViewComponent,
+    CreateAssetsComponent
   ],
   imports: [
     BrowserModule,
@@ -104,7 +110,7 @@ import { ShelterViewComponent } from './shelter/shelter-view/shelter-view.compon
     ReactiveFormsModule,
     AppRoutingModule,
     StoreModule.forRoot(AllReducers),
-    EffectsModule.forRoot([OrgnizationEffects]),
+    EffectsModule.forRoot([OrgnizationEffects,AssetsEffects]),
     StoreDevtoolsModule.instrument(
      {
        maxAge: 25
@@ -119,7 +125,7 @@ import { ShelterViewComponent } from './shelter/shelter-view/shelter-view.compon
     OverlayDeleteComponent,
     OverlayUpdateOrgComponent
   ],
-  providers: [ InfoService, RestService, OrganizationService ],
+  providers: [ InfoService, RestService, OrganizationService ,AssetsService],
   bootstrap: [AppComponent],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
