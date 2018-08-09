@@ -22,6 +22,7 @@ import {
   MatDialogModule,
   MatSelectModule
 } from '@angular/material';
+import { ReactiveFormsModule } from '@angular/forms';
 const module = [
   MatButtonModule,
   MatCheckboxModule,
@@ -46,6 +47,7 @@ const module = [
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     ...module,
   ],
   exports: [

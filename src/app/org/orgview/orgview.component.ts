@@ -25,8 +25,7 @@ export interface Tile {
 @Component({
   selector: 'app-orgview',
   templateUrl: './orgview.component.html',
-  styleUrls: ['./orgview.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./orgview.component.css']
 })
 
 export class OrgviewComponent implements OnInit , AfterViewInit {
